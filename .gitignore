@@ -1,5 +1,7 @@
 node_modules/
 coverage/
 .tmp/
+.*.backup-*/
+.*.staging-*/
 *.sqlite-shm
 *.sqlite-wal

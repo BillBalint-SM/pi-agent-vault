@@ -1,6 +1,8 @@
 node_modules/
 coverage/
 .tmp/
+.*.backup-*/
+.*.staging-*/
 data/
 outputs/
 docs/superpowers/

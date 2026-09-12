@@ -1,0 +1,47 @@
+import { readFileSync } from "node:fs";
+import { afterEach, describe, expect, it } from "vitest";
+import { buildIndex } from "../src/index.js";
+import { runCli } from "../src/cli.js";
+import { createIndexFixture, type TestVault } from "./test-vault.js";
+
+let fixture: TestVault | undefined;
+
+afterEach(() => {
+  fixture?.cleanup();
+  fixture = undefined;
+});
+
+describe("pi-docs CLI", () => {
+  it("search prints bounded JSON with source links", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+
+    const result = await runCli(["search", "project trust", "--json", "--data", fixture.root]);
+    const payload = JSON.parse(result.stdout) as {
+      results: Array<{ url: string; snippet: string }>;
+    };
+
+    expect(payload.results[0]?.url).toMatch(/^https:\/\/pi\.dev\/docs\/latest/);
+    expect(payload.results[0]?.snippet.length).toBeLessThanOrEqual(1200);
+  });
+
+  it("shows a manifest-selected source and reports index stats", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+
+    const shown = await runCli(["show", "using-pi", "--section", "html", "--data", fixture.root]);
+    expect(shown.stdout).toContain("Using Pi");
+
+    const stats = await runCli(["stats", "--json", "--data", fixture.root]);
+    expect(JSON.parse(stats.stdout)).toMatchObject({ documents: 2, sections: 6 });
+  });
+
+  it("check verifies the fixture and emits a machine-readable result", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+
+    const result = await runCli(["check", "--json", "--data", fixture.root]);
+    expect(JSON.parse(result.stdout)).toMatchObject({ ok: true, documents: 2, sections: 6 });
+    expect(readFileSync(fixture.dbPath)).toBeTruthy();
+  });
+});

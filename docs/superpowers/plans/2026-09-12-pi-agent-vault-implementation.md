@@ -184,6 +184,7 @@ git commit -m "feat: crawl and preserve official pi docs"
 **Files:**
 - Create: `src/index.ts`
 - Create: `src/search.ts`
+- Create: `tests/test-vault.ts`
 - Create: `tests/index.test.ts`
 - Create: `tests/search.test.ts`
 

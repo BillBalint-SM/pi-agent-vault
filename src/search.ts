@@ -16,6 +16,11 @@ export interface SearchResult {
   sha256: string;
 }
 
+export interface ReadonlySearchIndex {
+  search(query: string, options?: SearchOptions): SearchResult[];
+  close(): void;
+}
+
 interface SearchRow {
   doc_id: string;
   title: string;
@@ -39,9 +44,35 @@ export function searchDocs(
   const limit = clampLimit(options.limit);
   const db = new DatabaseSync(dbPath, { readOnly: true });
   try {
-    const rows = db
-      .prepare(
-        `
+    return searchWithDatabase(db, matchQuery, limit);
+  } finally {
+    db.close();
+  }
+}
+
+export function openSearchIndex(dbPath: string): ReadonlySearchIndex {
+  const db = new DatabaseSync(dbPath, { readOnly: true });
+  let closed = false;
+  return {
+    search(query, options = {}) {
+      if (closed) throw new Error("Search index is closed");
+      const matchQuery = createMatchQuery(query);
+      if (!matchQuery) return [];
+      return searchWithDatabase(db, matchQuery, clampLimit(options.limit));
+    },
+    close() {
+      if (!closed) {
+        closed = true;
+        db.close();
+      }
+    },
+  };
+}
+
+function searchWithDatabase(db: DatabaseSync, matchQuery: string, limit: number): SearchResult[] {
+  const rows = db
+    .prepare(
+      `
       SELECT
         d.id AS doc_id,
         d.title AS title,
@@ -59,22 +90,19 @@ export function searchDocs(
       ORDER BY score ASC, d.url ASC, s.ordinal ASC
       LIMIT ?
     `,
-      )
-      .all(matchQuery, limit) as unknown as SearchRow[];
+    )
+    .all(matchQuery, limit) as unknown as SearchRow[];
 
-    return rows.map((row) => ({
-      docId: row.doc_id,
-      title: row.title,
-      headingPath: row.heading_path ? row.heading_path.split(" / ") : [],
-      snippet: row.snippet.slice(0, 1200),
-      score: row.score,
-      url: row.url,
-      sourcePath: row.source_path,
-      sha256: row.sha256,
-    }));
-  } finally {
-    db.close();
-  }
+  return rows.map((row) => ({
+    docId: row.doc_id,
+    title: row.title,
+    headingPath: row.heading_path ? row.heading_path.split(" / ") : [],
+    snippet: row.snippet.slice(0, 1200),
+    score: row.score,
+    url: row.url,
+    sourcePath: row.source_path,
+    sha256: row.sha256,
+  }));
 }
 
 function createMatchQuery(query: string): string {
