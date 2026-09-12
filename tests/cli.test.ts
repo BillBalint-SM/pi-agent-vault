@@ -1,8 +1,8 @@
-import { appendFileSync, readFileSync } from "node:fs";
+import { readFileSync, rmSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildIndex } from "../src/index.js";
-import { runCli } from "../src/cli.js";
-import { readManifest, writeManifest } from "../src/manifest.js";
+import { checkVault as cliCheckVault, runCli } from "../src/cli.js";
+import { checkVault as moduleCheckVault } from "../src/vault-check.js";
 import { createIndexFixture, type TestVault } from "./test-vault.js";
 
 let fixture: TestVault | undefined;
@@ -46,36 +46,44 @@ describe("pi-docs CLI", () => {
     expect(readFileSync(fixture.dbPath)).toBeTruthy();
   });
 
-  it("check rejects a tampered source snapshot", async () => {
-    fixture = createIndexFixture();
-    buildIndex({ dataDir: fixture.root });
-    appendFileSync(`${fixture.root}/sources/using-pi.html`, "<!-- tampered -->", "utf8");
-
-    const result = await runCli(["check", "--json", "--data", fixture.root]);
-    const report = JSON.parse(result.stdout) as { ok: boolean; errors: string[] };
-
-    expect(result.exitCode).toBe(1);
-    expect(report.ok).toBe(false);
-    expect(report.errors.some((error) => /SHA-256 mismatch/i.test(error))).toBe(true);
+  it("re-exports the deep VaultCheck function for source compatibility", () => {
+    expect(cliCheckVault).toBe(moduleCheckVault);
   });
 
-  it("check rejects an index whose document row disagrees with the manifest", async () => {
+  it("preserves the human check output", async () => {
     fixture = createIndexFixture();
     buildIndex({ dataDir: fixture.root });
-    const manifest = readManifest(`${fixture.root}/manifest.json`);
-    const firstEntry = manifest.entries[0];
-    if (!firstEntry) throw new Error("Fixture manifest is empty");
-    firstEntry.title = "Changed after indexing";
-    writeManifest(`${fixture.root}/manifest.json`, manifest);
+
+    const result = await runCli(["check", "--data", fixture.root]);
+
+    expect(result).toEqual({
+      stdout: "OK: 2 documents, 6 sections, 6 FTS rows, 2 source links.\n",
+      stderr: "",
+      exitCode: 0,
+    });
+  });
+
+  it("maps a failed report to JSON exit code 1", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+    rmSync(fixture.dbPath, { force: true });
 
     const result = await runCli(["check", "--json", "--data", fixture.root]);
     const report = JSON.parse(result.stdout) as { ok: boolean; errors: string[] };
 
     expect(result.exitCode).toBe(1);
     expect(report.ok).toBe(false);
-    expect(report.errors.some((error) => /document.*mismatch|manifest.*index/i.test(error))).toBe(
-      true,
+    expect(result.stderr).toBe("");
+    expect(report.errors[0]).toMatch(/^index: missing/);
+  });
+
+  it("preserves the human failure prefix", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+    rmSync(fixture.dbPath, { force: true });
+
+    await expect(runCli(["check", "--data", fixture.root])).rejects.toThrow(
+      /^Vault check failed:\nindex: missing/,
     );
-    expect(report.errors.some((error) => /section.*mismatch/i.test(error))).toBe(true);
   });
 });
