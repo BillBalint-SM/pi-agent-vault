@@ -15,6 +15,7 @@ import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import { spawnSync } from "node:child_process";
 import { canonicalizeDocsUrl, crawlDocs, type CrawlResult } from "./crawl.js";
 import { sectionizeMarkdown } from "./extract.js";
 import { buildIndex, resolveManifestPath } from "./index.js";
@@ -494,7 +495,7 @@ function runBenchmark(args: ParsedArgs): CliResult {
   for (let iteration = 0; iteration < iterations; iteration += 1) {
     const query = benchmarkQuery(iteration);
     const start = performance.now();
-    searchDocs(paths.indexPath, query);
+    runColdSearchProcess(dataDir, query);
     coldDurations.push(performance.now() - start);
   }
 
@@ -523,6 +524,20 @@ function runBenchmark(args: ParsedArgs): CliResult {
     args.json,
     `Benchmark: cold p50/p95 ${report.coldProcessMs.p50.toFixed(2)}/${report.coldProcessMs.p95.toFixed(2)} ms; warm p50/p95 ${report.warmProcessMs.p50.toFixed(2)}/${report.warmProcessMs.p95.toFixed(2)} ms.`,
   );
+}
+
+function runColdSearchProcess(dataDir: string, query: string): void {
+  const entry = process.argv[1];
+  if (!entry) throw new Error("Cannot locate the CLI entry point for the cold benchmark");
+  const child = spawnSync(
+    process.execPath,
+    [...process.execArgv, path.resolve(entry), "search", query, "--json", "--data", dataDir],
+    { cwd: process.cwd(), encoding: "utf8", windowsHide: true },
+  );
+  if (child.error) throw child.error;
+  if (child.status !== 0) {
+    throw new Error(`Cold benchmark search failed with exit code ${child.status}: ${child.stderr}`);
+  }
 }
 
 function formatSearchResults(results: SearchResult[]): string {
