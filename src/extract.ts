@@ -51,7 +51,7 @@ export function extractPage(html: string, url: string): ExtractedPage {
     title,
     articleHtml,
     markdown,
-    sections: splitSections(markdown, title),
+    sections: sectionizeMarkdown(markdown, title),
     links: Array.from(content.querySelectorAll("a"))
       .map((anchor) => anchor.getAttribute("href"))
       .filter((href): href is string => href !== null && href.trim().length > 0),
@@ -67,10 +67,10 @@ function selectContent(document: Document): Element {
   );
 }
 
-function splitSections(markdown: string, title: string): ExtractedSection[] {
+export function sectionizeMarkdown(markdown: string, title: string): ExtractedSection[] {
   const sections: ExtractedSection[] = [];
   const stack: string[] = [];
-  let current: { headingPath: string[]; heading: string; lines: string[] } | undefined;
+  let current: { headingPath: string[]; lines: string[] } | undefined;
 
   const flush = () => {
     if (!current) return;
@@ -99,7 +99,6 @@ function splitSections(markdown: string, title: string): ExtractedSection[] {
     stack[level - 1] = heading;
     current = {
       headingPath: stack.slice(0, level),
-      heading,
       lines: [line],
     };
   }
