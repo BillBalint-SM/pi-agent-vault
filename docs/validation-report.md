@@ -40,8 +40,8 @@ The cold path starts a new Node process and opens a read-only SQLite connection 
 
 | Path         | Samples |       p50 |       p95 |       Min |       Max |
 | ------------ | ------: | --------: | --------: | --------: | --------: |
-| Cold process |     100 | 275.84 ms | 295.45 ms | 260.33 ms | 317.52 ms |
-| Warm process |     100 |  0.192 ms |  0.399 ms |  0.060 ms |  2.962 ms |
+| Cold process |     100 | 266.80 ms | 280.12 ms | 255.64 ms | 286.13 ms |
+| Warm process |     100 |  0.216 ms |  0.376 ms |  0.059 ms |  3.159 ms |
 
 ## Integration checks
 
