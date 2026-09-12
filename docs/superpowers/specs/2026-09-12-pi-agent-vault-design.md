@@ -63,6 +63,7 @@ The index stores one document row per page plus one row per searchable section/c
 │   ├── index.ts
 │   ├── search.ts
 │   ├── manifest.ts
+│   ├── install-plan.ts
 │   ├── paths.ts
 │   └── pi-extension.ts
 ├── tests/
@@ -79,14 +80,17 @@ The index stores one document row per page plus one row per searchable section/c
 │       └── pi-docs-kb/
 │           └── SKILL.md
 ├── docs/
-│   ├── official-pi-docs-research.md
 │   └── superpowers/
 │       └── specs/
 │           └── 2026-09-12-pi-agent-vault-design.md
+├── research/
+│   └── official-pi-docs.md
 └── data/
     ├── sources/
     ├── derived/
-    └── index/
+    ├── index/
+    ├── manifest.json
+    └── refresh-report.json
 ```
 
 The repository contains the builder and configuration. The generated corpus and SQLite database are build outputs under `data/`; a portable copy is exported to the workspace `outputs/` directory for handoff. Machine-level installation copies only the Pi skill and extension into the user Pi resource directory and records the absolute vault path in a generated configuration file. Existing user Pi files are preserved.
@@ -98,12 +102,13 @@ The repository contains the builder and configuration. The generated corpus and 
 The command is exposed through `npm run pi-docs -- <command>` during development and through a generated `pi-docs.cmd`/PowerShell shim in the installed kit.
 
 ```text
-pi-docs crawl [--base-url URL] [--out DIR]
+pi-docs crawl [--base-url URL] [--data DIR]
 pi-docs build-index [--data DIR]
 pi-docs refresh [--data DIR]
 pi-docs search <query> [--limit N] [--json]
 pi-docs show <doc-id-or-url> [--section N]
 pi-docs stats [--json]
+pi-docs benchmark [--iterations N] [--json]
 pi-docs check
 ```
 
