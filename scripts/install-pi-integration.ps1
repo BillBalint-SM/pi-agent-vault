@@ -152,6 +152,47 @@ function Get-PointerJson {
   return ($payload | ConvertTo-Json -Depth 4)
 }
 
+function Get-ManagedMachinePaths {
+  param([Parameter(Mandatory = $true)][string]$PiRoot)
+
+  $extensionDir = Join-Path $PiRoot "extensions\pi-docs-kb"
+  $skillDir = Join-Path $PiRoot "skills\pi-docs-kb"
+  return @(
+    (Join-Path $extensionDir "index.ts"),
+    (Join-Path $extensionDir "search.ts"),
+    (Join-Path $extensionDir "paths.ts"),
+    (Join-Path $skillDir "SKILL.md"),
+    (Join-Path $PiRoot "pi-docs-kb.json"),
+    (Join-Path $PiRoot "pi-docs.cmd")
+  )
+}
+
+function Assert-NoReparsePath {
+  param(
+    [Parameter(Mandatory = $true)][string]$Root,
+    [Parameter(Mandatory = $true)][string]$Target
+  )
+
+  $rootFull = Get-FullPath $Root
+  $current = Get-FullPath $Target
+  while (Test-PathWithin -Root $rootFull -Target $current) {
+    if (Test-Path -LiteralPath $current) {
+      $item = Get-Item -LiteralPath $current -Force
+      if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+        throw "Refusing to traverse a reparse point: $current"
+      }
+    }
+    if ($current.Equals($rootFull, [StringComparison]::OrdinalIgnoreCase)) {
+      break
+    }
+    $parent = Split-Path -Parent $current
+    if ([string]::IsNullOrWhiteSpace($parent) -or $parent.Equals($current, [StringComparison]::OrdinalIgnoreCase)) {
+      break
+    }
+    $current = $parent
+  }
+}
+
 function Invoke-Uninstall {
   param([Parameter(Mandatory = $true)][string]$PiRoot)
 
@@ -162,21 +203,46 @@ function Invoke-Uninstall {
   }
 
   $pointer = Get-Content -LiteralPath $pointerPath -Raw | ConvertFrom-Json
+  if (
+    $pointer.version -ne 1 -or
+    [string]::IsNullOrWhiteSpace([string]$pointer.vaultRoot) -or
+    [string]::IsNullOrWhiteSpace([string]$pointer.manifestSha256) -or
+    [string]$pointer.manifestSha256 -notmatch '^[a-fA-F0-9]{64}$' -or
+    $null -eq $pointer.installedFiles
+  ) {
+    throw "Invalid Pi docs integration pointer: $pointerPath"
+  }
+
+  $allowedPaths = @(Get-ManagedMachinePaths -PiRoot $PiRoot | ForEach-Object { Get-FullPath $_ })
   $installedFiles = @($pointer.installedFiles)
+  $destinations = @()
   foreach ($file in $installedFiles) {
     if ([string]::IsNullOrWhiteSpace([string]$file)) {
-      continue
+      throw "Invalid empty installed file in pointer: $pointerPath"
     }
     $destination = Get-FullPath ([string]$file)
+    if ($allowedPaths -notcontains $destination) {
+      throw "Pointer names an unmanaged Pi file and was not changed: $destination"
+    }
     Assert-PathWithin -Root $PiRoot -Target $destination
+    Assert-NoReparsePath -Root $PiRoot -Target $destination
     if (Test-Path -LiteralPath $destination -PathType Container) {
       throw "Refusing to remove a directory during uninstall: $destination"
     }
+    $destinations += $destination
+  }
+
+  $destinations = @($destinations | Sort-Object -Unique)
+  $backupRoot = New-BackupRoot -Root $PiRoot -Label "uninstall"
+  foreach ($destination in $destinations) {
+    Backup-Existing -Destination $destination -Root $PiRoot -BackupRoot $backupRoot
+  }
+  foreach ($destination in $destinations) {
     if (Test-Path -LiteralPath $destination) {
       Remove-Item -LiteralPath $destination -Force
     }
   }
-  Write-Output "Removed only the files recorded in $pointerPath. Backups and unrelated Pi files remain."
+  Write-Output "Removed only allowlisted files recorded in $pointerPath. Backup: $backupRoot. Unrelated Pi files remain."
 }
 
 $piRoot = Get-FullPath $PiAgentDir
@@ -224,6 +290,8 @@ $portableSkillDir = Join-Path $portable "pi\skills\pi-docs-kb"
 $portableFiles = @(
   @{ Source = (Join-Path $projectRoot "README.md"); Destination = (Join-Path $portable "README.md") },
   @{ Source = (Join-Path $projectRoot "docs\source-policy.md"); Destination = (Join-Path $portable "docs\source-policy.md") },
+  @{ Source = (Join-Path $projectRoot "docs\operations.md"); Destination = (Join-Path $portable "docs\operations.md") },
+  @{ Source = (Join-Path $projectRoot "docs\validation-report.md"); Destination = (Join-Path $portable "docs\validation-report.md") },
   @{ Source = (Join-Path $projectRoot "scripts\install-pi-integration.ps1"); Destination = (Join-Path $portable "scripts\install-pi-integration.ps1") },
   @{ Source = (Join-Path $projectRoot "package.json"); Destination = (Join-Path $portable "package.json") },
   @{ Source = (Join-Path $projectRoot "package-lock.json"); Destination = (Join-Path $portable "package-lock.json") },

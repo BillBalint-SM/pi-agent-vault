@@ -1,6 +1,6 @@
 {
   "rootUrl": "https://pi.dev/docs/latest",
-  "generatedAt": "2026-09-12T13:40:33.487Z",
+  "generatedAt": "2026-09-12T14:20:00.493Z",
   "added": [],
   "changed": [],
   "removed": [],
@@ -36,5 +36,6 @@
     "https://pi.dev/docs/latest/usage",
     "https://pi.dev/docs/latest/windows"
   ],
-  "errors": []
+  "errors": [],
+  "redirects": []
 }

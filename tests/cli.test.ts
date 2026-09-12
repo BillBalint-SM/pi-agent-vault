@@ -2,6 +2,7 @@ import { appendFileSync, readFileSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildIndex } from "../src/index.js";
 import { runCli } from "../src/cli.js";
+import { readManifest, writeManifest } from "../src/manifest.js";
 import { createIndexFixture, type TestVault } from "./test-vault.js";
 
 let fixture: TestVault | undefined;
@@ -56,5 +57,25 @@ describe("pi-docs CLI", () => {
     expect(result.exitCode).toBe(1);
     expect(report.ok).toBe(false);
     expect(report.errors.some((error) => /SHA-256 mismatch/i.test(error))).toBe(true);
+  });
+
+  it("check rejects an index whose document row disagrees with the manifest", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+    const manifest = readManifest(`${fixture.root}/manifest.json`);
+    const firstEntry = manifest.entries[0];
+    if (!firstEntry) throw new Error("Fixture manifest is empty");
+    firstEntry.title = "Changed after indexing";
+    writeManifest(`${fixture.root}/manifest.json`, manifest);
+
+    const result = await runCli(["check", "--json", "--data", fixture.root]);
+    const report = JSON.parse(result.stdout) as { ok: boolean; errors: string[] };
+
+    expect(result.exitCode).toBe(1);
+    expect(report.ok).toBe(false);
+    expect(report.errors.some((error) => /document.*mismatch|manifest.*index/i.test(error))).toBe(
+      true,
+    );
+    expect(report.errors.some((error) => /section.*mismatch/i.test(error))).toBe(true);
   });
 });

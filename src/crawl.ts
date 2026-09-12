@@ -6,6 +6,7 @@ import {
   readManifest,
   type Manifest,
   type ManifestEntry,
+  type RedirectRecord,
   type RefreshReport,
   writeManifest,
 } from "./manifest.js";
@@ -27,9 +28,11 @@ export interface CrawlResult {
 }
 
 interface FetchedPage {
+  requestedUrl: string;
   url: string;
   bytes: Uint8Array;
   extracted: ExtractedPage;
+  redirects: RedirectRecord[];
 }
 
 export function canonicalizeDocsUrl(input: string, baseUrl: URL): URL | null {
@@ -76,7 +79,7 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
       const url = queue.shift();
       if (!url) return;
 
-      const fetched = await fetchHtml(url, fetchPage, options);
+      const fetched = await fetchHtml(url, fetchPage, options, baseUrl);
       pages.push(fetched);
       for (const link of fetched.extracted.links) {
         const next = canonicalizeDocsUrl(link, baseUrl);
@@ -90,10 +93,14 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
 
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
 
-  pages.sort((left, right) => left.url.localeCompare(right.url));
+  const uniquePages = [...new Map(pages.map((page) => [page.url, page])).values()];
+  uniquePages.sort(
+    (left, right) =>
+      left.url.localeCompare(right.url) || left.requestedUrl.localeCompare(right.requestedUrl),
+  );
   const usedSlugs = new Set<string>();
   const entries: ManifestEntry[] = [];
-  for (const page of pages) {
+  for (const page of uniquePages) {
     const slug = uniqueSlug(page.url, baseUrl, usedSlugs);
     const htmlPath = path.join(vaultPaths.sourcesDir, `${slug}.html`);
     const markdownPath = path.join(vaultPaths.sourcesDir, `${slug}.md`);
@@ -117,7 +124,10 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
     generatedAt: new Date().toISOString(),
     entries,
   };
-  const report = createRefreshReport(vaultPaths.manifestPath, manifest);
+  const redirects = pages
+    .flatMap((page) => page.redirects)
+    .sort((left, right) => left.from.localeCompare(right.from) || left.to.localeCompare(right.to));
+  const report = createRefreshReport(vaultPaths.manifestPath, manifest, redirects);
   writeManifest(vaultPaths.manifestPath, manifest);
   writeFileSync(vaultPaths.reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 
@@ -128,27 +138,60 @@ async function fetchHtml(
   url: string,
   fetchImpl: typeof fetch,
   options: CrawlOptions,
+  baseUrl: URL,
 ): Promise<FetchedPage> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), options.timeoutMs ?? 20_000);
+  let currentUrl = url;
+  const redirects: RedirectRecord[] = [];
   try {
-    const response = await fetchImpl(url, {
-      headers: {
-        accept: "text/html",
-        "user-agent": options.userAgent ?? "pi-agent-vault/0.1 (+https://pi.dev/docs/latest)",
-      },
-      signal: controller.signal,
-    });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status} ${response.statusText}`);
+    for (;;) {
+      const response = await fetchImpl(currentUrl, {
+        headers: {
+          accept: "text/html",
+          "user-agent": options.userAgent ?? "pi-agent-vault/0.1 (+https://pi.dev/docs/latest)",
+        },
+        redirect: "manual",
+        signal: controller.signal,
+      });
+      if (response.status >= 300 && response.status < 400) {
+        const location = response.headers.get("location");
+        if (!location) throw new Error(`HTTP ${response.status} redirect has no Location header`);
+        const next = canonicalizeDocsUrl(new URL(location, currentUrl).href, baseUrl);
+        if (!next) {
+          throw new Error(`Redirect target is outside documentation scope: ${location}`);
+        }
+        if (next.href === currentUrl || redirects.some((redirect) => redirect.to === next.href)) {
+          throw new Error(`Redirect cycle detected at ${next.href}`);
+        }
+        redirects.push({ from: currentUrl, to: next.href });
+        if (redirects.length > 10) throw new Error(`Too many redirects while fetching ${url}`);
+        currentUrl = next.href;
+        continue;
+      }
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      }
+      const responseUrl = response.url?.trim() || currentUrl;
+      const finalUrl = canonicalizeDocsUrl(responseUrl, baseUrl);
+      if (!finalUrl) {
+        throw new Error(`Response URL is outside documentation scope: ${responseUrl}`);
+      }
+      if (finalUrl.href !== currentUrl) redirects.push({ from: currentUrl, to: finalUrl.href });
+      const contentType = response.headers.get("content-type") ?? "";
+      if (!contentType.toLowerCase().includes("text/html")) {
+        throw new Error(`Expected text/html but received ${contentType || "unknown content type"}`);
+      }
+      const bytes = new Uint8Array(await response.arrayBuffer());
+      const html = new TextDecoder().decode(bytes);
+      return {
+        requestedUrl: url,
+        url: finalUrl.href,
+        bytes,
+        extracted: extractPage(html, finalUrl.href),
+        redirects,
+      };
     }
-    const contentType = response.headers.get("content-type") ?? "";
-    if (!contentType.toLowerCase().includes("text/html")) {
-      throw new Error(`Expected text/html but received ${contentType || "unknown content type"}`);
-    }
-    const bytes = new Uint8Array(await response.arrayBuffer());
-    const html = new TextDecoder().decode(bytes);
-    return { url, bytes, extracted: extractPage(html, url) };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     throw new Error(`Failed to fetch ${url}: ${message}`, { cause: error });
@@ -157,7 +200,11 @@ async function fetchHtml(
   }
 }
 
-function createRefreshReport(manifestPath: string, current: Manifest): RefreshReport {
+function createRefreshReport(
+  manifestPath: string,
+  current: Manifest,
+  redirects: RedirectRecord[],
+): RefreshReport {
   const previous = tryReadManifest(manifestPath);
   const previousByUrl = new Map(previous?.entries.map((entry) => [entry.url, entry]) ?? []);
   const currentUrls = new Set(current.entries.map((entry) => entry.url));
@@ -183,6 +230,7 @@ function createRefreshReport(manifestPath: string, current: Manifest): RefreshRe
     removed,
     unchanged,
     errors: [],
+    redirects,
   };
 }
 

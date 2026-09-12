@@ -64,4 +64,61 @@ describe("crawlDocs", () => {
     );
     expect(result.report.errors).toEqual([]);
   });
+
+  it("follows same-scope redirects and records their canonical targets", async () => {
+    const baseUrl = "https://pi.dev/docs/latest";
+    const outputDir = mkdtempSync(path.join(os.tmpdir(), "pi-vault-redirect-"));
+    roots.push(outputDir);
+    const fetchImpl: typeof fetch = (input) => {
+      const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+      if (url === baseUrl) {
+        return Promise.resolve(
+          new Response(
+            '<article><h1>Root</h1><a href="/docs/latest/redirected">Redirect</a></article>',
+            { headers: { "content-type": "text/html" } },
+          ),
+        );
+      }
+      if (url === `${baseUrl}/redirected`) {
+        return Promise.resolve(
+          new Response(null, {
+            status: 302,
+            headers: { location: `${baseUrl}/final/` },
+          }),
+        );
+      }
+      return Promise.resolve(
+        new Response("<article><h1>Final</h1><p>Final page.</p></article>", {
+          headers: { "content-type": "text/html" },
+        }),
+      );
+    };
+
+    const result = await crawlDocs({ baseUrl, outputDir, fetchImpl });
+
+    expect(result.manifest.entries.map((entry) => entry.url)).toEqual([
+      baseUrl,
+      `${baseUrl}/final`,
+    ]);
+    expect(result.report.redirects).toEqual([
+      { from: `${baseUrl}/redirected`, to: `${baseUrl}/final` },
+    ]);
+  });
+
+  it("fails when a redirect target leaves the documentation scope", async () => {
+    const baseUrl = "https://pi.dev/docs/latest";
+    const outputDir = mkdtempSync(path.join(os.tmpdir(), "pi-vault-redirect-"));
+    roots.push(outputDir);
+    const fetchImpl: typeof fetch = () =>
+      Promise.resolve(
+        new Response(null, {
+          status: 302,
+          headers: { location: "https://example.com/outside" },
+        }),
+      );
+
+    await expect(crawlDocs({ baseUrl, outputDir, fetchImpl })).rejects.toThrow(
+      /redirect.*scope|outside/i,
+    );
+  });
 });

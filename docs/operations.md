@@ -33,7 +33,7 @@ Do not edit `data/sources/*.html` or the manifest by hand. If a source needs to 
 
 ## Installer recovery
 
-The installer creates collision backups under `%USERPROFILE%\.pi\agent\backups\pi-docs-kb-*` and under the portable output's `.backups\` directory. To recover a replaced file, stop Pi, copy the desired backup file back to its original path, and restart Pi. The uninstall operation does not delete these backups.
+The installer creates collision backups under `%USERPROFILE%\.pi\agent\backups\pi-docs-kb-*` and under the portable output's `backups\` directory. To recover a replaced file, stop Pi, copy the desired backup file back to its original path, and restart Pi. The uninstall operation does not delete these backups.
 
 The pointer records the absolute vault root, its manifest hash, and the machine files owned by this integration. Uninstall reads only that pointer and refuses paths outside the Pi resource directory. It does not modify `AGENTS.md`, `settings.json`, `auth.json`, session JSONL files, provider configuration, or unrelated skills.
 

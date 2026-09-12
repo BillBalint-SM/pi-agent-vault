@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { extractPage } from "../src/extract.js";
+import { extractPage, MAX_SECTION_CHARS, sectionizeMarkdown } from "../src/extract.js";
 
 const quickstartHtml = readFileSync(new URL("./fixtures/quickstart.html", import.meta.url), "utf8");
 
@@ -25,5 +25,26 @@ describe("extractPage", () => {
     expect(page.sections.some((section) => section.headingPath.includes("First session"))).toBe(
       true,
     );
+  });
+
+  it("does not invent empty heading path segments when a page starts below H1", () => {
+    const page = extractPage(
+      "<article><h2>Configuration</h2><h3>Settings</h3><p>Use the settings file.</p></article>",
+      "https://pi.dev/docs/latest/settings",
+    );
+
+    expect(page.sections.map((section) => section.headingPath)).toEqual([
+      ["Configuration"],
+      ["Configuration", "Settings"],
+    ]);
+  });
+
+  it("splits an oversized section into bounded deterministic chunks", () => {
+    const sections = sectionizeMarkdown(`# Long\n\n${"alpha ".repeat(2000)}`, "Long");
+
+    expect(sections.length).toBeGreaterThan(1);
+    expect(sections.every((section) => section.body.length <= MAX_SECTION_CHARS)).toBe(true);
+    expect(sections.map((section) => section.ordinal)).toEqual(sections.map((_, index) => index));
+    expect(sections.map((section) => section.headingPath)).toEqual(sections.map(() => ["Long"]));
   });
 });

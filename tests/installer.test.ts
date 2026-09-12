@@ -1,6 +1,8 @@
-import { mkdtempSync, rmSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it } from "vitest";
 import { planInstall } from "../src/install-plan.js";
 
@@ -47,5 +49,31 @@ describe("planInstall", () => {
     });
 
     expect(plan.writes.some((file) => /auth|session|models\.json/i.test(file))).toBe(false);
+  });
+
+  it("refuses to uninstall a pointer that names an unrelated Pi file", () => {
+    if (process.platform !== "win32") return;
+
+    const root = mkdtempSync(path.join(os.tmpdir(), "pi-vault-uninstall-"));
+    roots.push(root);
+    const piAgentDir = path.join(root, "pi-agent");
+    mkdirSync(piAgentDir, { recursive: true });
+    const authPath = path.join(piAgentDir, "auth.json");
+    const pointerPath = path.join(piAgentDir, "pi-docs-kb.json");
+    writeFileSync(authPath, "must survive\n", "utf8");
+    writeFileSync(pointerPath, JSON.stringify({ version: 1, installedFiles: [authPath] }), "utf8");
+
+    const scriptPath = fileURLToPath(
+      new URL("../scripts/install-pi-integration.ps1", import.meta.url),
+    );
+    const result = spawnSync(
+      "pwsh",
+      ["-NoProfile", "-File", scriptPath, "-Uninstall", "-PiAgentDir", piAgentDir],
+      { encoding: "utf8", windowsHide: true },
+    );
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).not.toBe(0);
+    expect(existsSync(authPath)).toBe(true);
   });
 });

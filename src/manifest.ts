@@ -20,6 +20,11 @@ export interface Manifest {
   entries: ManifestEntry[];
 }
 
+export interface RedirectRecord {
+  from: string;
+  to: string;
+}
+
 export interface RefreshReport {
   rootUrl: string;
   generatedAt: string;
@@ -28,6 +33,7 @@ export interface RefreshReport {
   removed: string[];
   unchanged: string[];
   errors: string[];
+  redirects: RedirectRecord[];
 }
 
 export function hashBytes(bytes: Uint8Array): string {
