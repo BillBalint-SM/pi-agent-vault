@@ -47,4 +47,12 @@ describe("extractPage", () => {
     expect(sections.map((section) => section.ordinal)).toEqual(sections.map((_, index) => index));
     expect(sections.map((section) => section.headingPath)).toEqual(sections.map(() => ["Long"]));
   });
+
+  it("also bounds headingless Markdown fallback sections", () => {
+    const sections = sectionizeMarkdown("alpha ".repeat(2000), "Untitled");
+
+    expect(sections.length).toBeGreaterThan(1);
+    expect(sections.every((section) => section.body.length <= MAX_SECTION_CHARS)).toBe(true);
+    expect(sections.map((section) => section.ordinal)).toEqual(sections.map((_, index) => index));
+  });
 });

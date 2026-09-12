@@ -65,7 +65,10 @@ function New-BackupRoot {
   )
 
   $stamp = Get-Date -Format "yyyyMMddHHmmssfff"
-  return Join-Path -Path $Root -ChildPath "backups\pi-docs-kb-$Label-$stamp"
+  $backupRoot = Join-Path -Path $Root -ChildPath "backups\pi-docs-kb-$Label-$stamp"
+  Assert-PathWithin -Root $Root -Target $backupRoot
+  Assert-NoReparsePath -Root $Root -Target $backupRoot
+  return $backupRoot
 }
 
 function Backup-Existing {
@@ -79,6 +82,7 @@ function Backup-Existing {
     return
   }
   Assert-PathWithin -Root $Root -Target $Destination
+  Assert-NoReparsePath -Root $Root -Target $Destination
   $item = Get-Item -LiteralPath $Destination -Force
   if (($item.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
     throw "Refusing to overwrite a reparse point: $Destination"
@@ -86,6 +90,8 @@ function Backup-Existing {
 
   $relative = [IO.Path]::GetRelativePath((Get-FullPath $Root), (Get-FullPath $Destination))
   $backupPath = Join-Path -Path $BackupRoot -ChildPath $relative
+  Assert-PathWithin -Root $Root -Target $BackupPath
+  Assert-NoReparsePath -Root $Root -Target $BackupPath
   New-Item -ItemType Directory -Force -Path (Split-Path -Parent $backupPath) | Out-Null
   Copy-Item -LiteralPath $Destination -Destination $backupPath -Recurse -Force
 }
@@ -100,6 +106,7 @@ function Copy-ManagedFile {
 
   Assert-SourceFile -PathValue $Source | Out-Null
   Assert-PathWithin -Root $Root -Target $Destination
+  Assert-NoReparsePath -Root $Root -Target $Destination
   Backup-Existing -Destination $Destination -Root $Root -BackupRoot $BackupRoot
   New-Item -ItemType Directory -Force -Path (Split-Path -Parent $Destination) | Out-Null
   Copy-Item -LiteralPath $Source -Destination $Destination -Force
@@ -114,6 +121,7 @@ function Write-ManagedText {
   )
 
   Assert-PathWithin -Root $Root -Target $Destination
+  Assert-NoReparsePath -Root $Root -Target $Destination
   Backup-Existing -Destination $Destination -Root $Root -BackupRoot $BackupRoot
   New-Item -ItemType Directory -Force -Path (Split-Path -Parent $Destination) | Out-Null
   [IO.File]::WriteAllText($Destination, $Content, [Text.UTF8Encoding]::new($false))

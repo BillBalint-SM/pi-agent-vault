@@ -115,14 +115,12 @@ export function sectionizeMarkdown(markdown: string, title: string): ExtractedSe
       .map((section, ordinal) => ({ ...section, ordinal }));
   }
 
-  return [
-    {
-      ordinal: 0,
-      headingPath: [],
-      title,
-      body: markdown,
-    },
-  ];
+  return splitSectionBody(markdown, MAX_SECTION_CHARS).map((body, ordinal) => ({
+    ordinal,
+    headingPath: [],
+    title,
+    body,
+  }));
 }
 
 function splitSectionBody(body: string, maximumCharacters: number): string[] {

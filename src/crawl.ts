@@ -73,6 +73,7 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
   const pages: FetchedPage[] = [];
   const fetchPage = options.fetchImpl ?? fetch;
   const concurrency = clampInteger(options.concurrency ?? 4, 1, 8);
+  const canonicalPages = new Set<string>();
 
   const worker = async (): Promise<void> => {
     while (queue.length > 0) {
@@ -81,9 +82,10 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
 
       const fetched = await fetchHtml(url, fetchPage, options, baseUrl);
       pages.push(fetched);
+      canonicalPages.add(fetched.url);
       for (const link of fetched.extracted.links) {
         const next = canonicalizeDocsUrl(link, baseUrl);
-        if (next && !seen.has(next.href)) {
+        if (next && !seen.has(next.href) && !canonicalPages.has(next.href)) {
           seen.add(next.href);
           queue.push(next.href);
         }
@@ -93,11 +95,17 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
 
   await Promise.all(Array.from({ length: concurrency }, () => worker()));
 
-  const uniquePages = [...new Map(pages.map((page) => [page.url, page])).values()];
-  uniquePages.sort(
+  const orderedPages = [...pages].sort(
     (left, right) =>
       left.url.localeCompare(right.url) || left.requestedUrl.localeCompare(right.requestedUrl),
   );
+  const uniquePages: FetchedPage[] = [];
+  const uniqueCanonicalPages = new Set<string>();
+  for (const page of orderedPages) {
+    if (uniqueCanonicalPages.has(page.url)) continue;
+    uniqueCanonicalPages.add(page.url);
+    uniquePages.push(page);
+  }
   const usedSlugs = new Set<string>();
   const entries: ManifestEntry[] = [];
   for (const page of uniquePages) {

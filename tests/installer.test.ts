@@ -1,4 +1,11 @@
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
@@ -75,5 +82,44 @@ describe("planInstall", () => {
     expect(result.error).toBeUndefined();
     expect(result.status).not.toBe(0);
     expect(existsSync(authPath)).toBe(true);
+  });
+
+  it("refuses to install through an intermediate reparse point", () => {
+    if (process.platform !== "win32") return;
+
+    const root = mkdtempSync(path.join(os.tmpdir(), "pi-vault-reparse-install-"));
+    roots.push(root);
+    const piAgentDir = path.join(root, "pi-agent");
+    const portableOutput = path.join(root, "portable");
+    const outsideDir = path.join(root, "outside");
+    const extensionParent = path.join(piAgentDir, "extensions");
+    mkdirSync(extensionParent, { recursive: true });
+    mkdirSync(outsideDir, { recursive: true });
+    symlinkSync(outsideDir, path.join(extensionParent, "pi-docs-kb"), "junction");
+
+    const scriptPath = fileURLToPath(
+      new URL("../scripts/install-pi-integration.ps1", import.meta.url),
+    );
+    const vaultRoot = fileURLToPath(new URL("../data", import.meta.url));
+    const result = spawnSync(
+      "pwsh",
+      [
+        "-NoProfile",
+        "-File",
+        scriptPath,
+        "-VaultRoot",
+        vaultRoot,
+        "-PiAgentDir",
+        piAgentDir,
+        "-PortableOutput",
+        portableOutput,
+      ],
+      { encoding: "utf8", windowsHide: true },
+    );
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).not.toBe(0);
+    expect(existsSync(path.join(outsideDir, "index.ts"))).toBe(false);
+    expect(existsSync(path.join(piAgentDir, "pi-docs-kb.json"))).toBe(false);
   });
 });

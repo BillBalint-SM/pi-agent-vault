@@ -744,6 +744,15 @@ function validateIndexedSections(
     )
     .all() as IndexedSectionRow[];
   const actualByDocument = new Map<string, IndexedSectionRow[]>();
+  const expectedSectionCount = [...expectedDocuments.values()].reduce(
+    (total, document) => total + document.sections.length,
+    0,
+  );
+  if (rows.length !== expectedSectionCount) {
+    errors.push(
+      `index: total section count mismatch (manifest=${expectedSectionCount}, SQLite=${rows.length})`,
+    );
+  }
 
   for (const row of rows) {
     if (typeof row.doc_id !== "string") {
