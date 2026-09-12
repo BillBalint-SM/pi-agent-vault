@@ -12,12 +12,7 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildIndex } from "../src/index.js";
-import {
-  hashBytes,
-  readManifest,
-  writeManifest,
-  type Manifest,
-} from "../src/manifest.js";
+import { hashBytes, readManifest, writeManifest, type Manifest } from "../src/manifest.js";
 import { checkVault } from "../src/vault-check.js";
 import { createIndexFixture, type TestVault } from "./test-vault.js";
 
@@ -149,8 +144,18 @@ describe("checkVault", () => {
   });
 
   it.each([
-    { name: "HTML SHA-256", relativePath: "sources/using-pi.html", suffix: "<!-- tampered -->", expected: /HTML SHA-256 mismatch/ },
-    { name: "Markdown content hash", relativePath: "sources/using-pi.md", suffix: "\nTampered Markdown", expected: /Markdown content hash mismatch/ },
+    {
+      name: "HTML SHA-256",
+      relativePath: "sources/using-pi.html",
+      suffix: "<!-- tampered -->",
+      expected: /HTML SHA-256 mismatch/,
+    },
+    {
+      name: "Markdown content hash",
+      relativePath: "sources/using-pi.md",
+      suffix: "\nTampered Markdown",
+      expected: /Markdown content hash mismatch/,
+    },
   ])("reports a $name mismatch", ({ relativePath, suffix, expected }) => {
     const vault = createBuiltFixture();
     appendFileSync(path.join(vault.root, relativePath), suffix, "utf8");
@@ -160,49 +165,146 @@ describe("checkVault", () => {
   });
 
   it.each([
-    { name: "document id", mutate: (manifest: Manifest) => { const { first, second } = requireTwoEntries(manifest); second.id = first.id; }, expected: /duplicate document id/ },
-    { name: "document URL", mutate: (manifest: Manifest) => { const { first, second } = requireTwoEntries(manifest); second.url = first.url; }, expected: /duplicate document URL/ },
+    {
+      name: "document id",
+      mutate: (manifest: Manifest) => {
+        const { first, second } = requireTwoEntries(manifest);
+        second.id = first.id;
+      },
+      expected: /duplicate document id/,
+    },
+    {
+      name: "document URL",
+      mutate: (manifest: Manifest) => {
+        const { first, second } = requireTwoEntries(manifest);
+        second.url = first.url;
+      },
+      expected: /duplicate document URL/,
+    },
   ])("reports a duplicate $name", ({ mutate, expected }) => {
-    const vault = createBuiltFixture(); editManifest(vault, mutate);
+    const vault = createBuiltFixture();
+    editManifest(vault, mutate);
     expect(checkVault(vault.root).errors.some((error) => expected.test(error))).toBe(true);
   });
 
   it("rejects a lexical source path escape", () => {
-    const vault = createBuiltFixture(); editManifest(vault, (manifest) => { const { first } = requireTwoEntries(manifest); first.htmlPath = "../escaped.html"; });
+    const vault = createBuiltFixture();
+    editManifest(vault, (manifest) => {
+      const { first } = requireTwoEntries(manifest);
+      first.htmlPath = "../escaped.html";
+    });
     expect(checkVault(vault.root).errors[0]).toMatch(/Path escapes vault root/);
   });
 
   it("rejects a source path that resolves through a link outside the vault", () => {
-    const vault = createBuiltFixture(); const outside = mkdtempSync(path.join(os.tmpdir(), "pi-vault-outside-")); extraRoots.push(outside);
-    const outsideBytes = new TextEncoder().encode("<article>outside</article>"); writeFileSync(path.join(outside, "escaped.html"), outsideBytes);
-    symlinkSync(outside, path.join(vault.root, "sources", "linked-outside"), process.platform === "win32" ? "junction" : "dir");
-    editManifest(vault, (manifest) => { const { first } = requireTwoEntries(manifest); first.htmlPath = "sources/linked-outside/escaped.html"; first.sha256 = hashBytes(outsideBytes); });
+    const vault = createBuiltFixture();
+    const outside = mkdtempSync(path.join(os.tmpdir(), "pi-vault-outside-"));
+    extraRoots.push(outside);
+    const outsideBytes = new TextEncoder().encode("<article>outside</article>");
+    writeFileSync(path.join(outside, "escaped.html"), outsideBytes);
+    symlinkSync(
+      outside,
+      path.join(vault.root, "sources", "linked-outside"),
+      process.platform === "win32" ? "junction" : "dir",
+    );
+    editManifest(vault, (manifest) => {
+      const { first } = requireTwoEntries(manifest);
+      first.htmlPath = "sources/linked-outside/escaped.html";
+      first.sha256 = hashBytes(outsideBytes);
+    });
     expect(checkVault(vault.root).errors[0]).toMatch(/path resolves outside vault/);
   });
 
   it.each([
-    { name: "missing", mutate: (vault: TestVault) => rmSync(vault.dbPath, { force: true }), expected: /index: missing/ },
-    { name: "corrupt", mutate: (vault: TestVault) => writeFileSync(vault.dbPath, "not sqlite", "utf8"), expected: /^index:/ },
+    {
+      name: "missing",
+      mutate: (vault: TestVault) => rmSync(vault.dbPath, { force: true }),
+      expected: /index: missing/,
+    },
+    {
+      name: "corrupt",
+      mutate: (vault: TestVault) => writeFileSync(vault.dbPath, "not sqlite", "utf8"),
+      expected: /^index:/,
+    },
   ])("reports a $name SQLite index", ({ mutate, expected }) => {
-    const vault = createBuiltFixture(); mutate(vault); const report = checkVault(vault.root);
-    expect(report.ok).toBe(false); expect(report.errors.some((error) => expected.test(error))).toBe(true);
+    const vault = createBuiltFixture();
+    mutate(vault);
+    const report = checkVault(vault.root);
+    expect(report.ok).toBe(false);
+    expect(report.errors.some((error) => expected.test(error))).toBe(true);
   });
 
   it.each([
-    { name: "mismatched", mutate: (db: DatabaseSync) => db.prepare("UPDATE documents SET title = ? WHERE id = ?").run("Tampered", "using-pi"), expected: /document mismatch for using-pi: title/ },
-    { name: "missing", mutate: (db: DatabaseSync) => { db.exec("PRAGMA foreign_keys = OFF"); db.prepare("DELETE FROM documents WHERE id = ?").run("using-pi"); }, expected: /manifest document using-pi is missing from SQLite/ },
-    { name: "orphan", mutate: (db: DatabaseSync) => db.prepare("INSERT INTO documents (id, url, title, html_path, markdown_path, sha256, content_hash) VALUES (?, ?, ?, ?, ?, ?, ?)").run("orphan", "https://pi.dev/docs/latest/orphan", "Orphan", "sources/orphan.html", "sources/orphan.md", "0".repeat(64), "1".repeat(64)), expected: /orphan document row orphan/ },
+    {
+      name: "mismatched",
+      mutate: (db: DatabaseSync) =>
+        db.prepare("UPDATE documents SET title = ? WHERE id = ?").run("Tampered", "using-pi"),
+      expected: /document mismatch for using-pi: title/,
+    },
+    {
+      name: "missing",
+      mutate: (db: DatabaseSync) => {
+        db.exec("PRAGMA foreign_keys = OFF");
+        db.prepare("DELETE FROM documents WHERE id = ?").run("using-pi");
+      },
+      expected: /manifest document using-pi is missing from SQLite/,
+    },
+    {
+      name: "orphan",
+      mutate: (db: DatabaseSync) =>
+        db
+          .prepare(
+            "INSERT INTO documents (id, url, title, html_path, markdown_path, sha256, content_hash) VALUES (?, ?, ?, ?, ?, ?, ?)",
+          )
+          .run(
+            "orphan",
+            "https://pi.dev/docs/latest/orphan",
+            "Orphan",
+            "sources/orphan.html",
+            "sources/orphan.md",
+            "0".repeat(64),
+            "1".repeat(64),
+          ),
+      expected: /orphan document row orphan/,
+    },
   ])("reports a $name document row", ({ mutate, expected }) => {
-    const vault = createBuiltFixture(); editIndex(vault, (db) => { mutate(db); });
+    const vault = createBuiltFixture();
+    editIndex(vault, (db) => {
+      mutate(db);
+    });
     expect(checkVault(vault.root).errors.some((error) => expected.test(error))).toBe(true);
   });
 
   it.each([
-    { name: "mismatched", mutate: (db: DatabaseSync) => db.prepare("UPDATE sections SET body = ? WHERE doc_id = ? AND ordinal = 0").run("Tampered section", "using-pi"), expected: /section mismatch for using-pi at ordinal 0/ },
-    { name: "missing", mutate: (db: DatabaseSync) => db.prepare("DELETE FROM sections WHERE doc_id = ? AND ordinal = 0").run("using-pi"), expected: /section count mismatch for using-pi/ },
-    { name: "orphan", mutate: (db: DatabaseSync) => { db.exec("PRAGMA foreign_keys = OFF"); db.prepare("INSERT INTO sections (doc_id, ordinal, heading_path, title, body) VALUES (?, ?, ?, ?, ?)").run("orphan", 0, "Orphan", "Orphan", "Orphan body"); }, expected: /orphan sections for document orphan/ },
+    {
+      name: "mismatched",
+      mutate: (db: DatabaseSync) =>
+        db
+          .prepare("UPDATE sections SET body = ? WHERE doc_id = ? AND ordinal = 0")
+          .run("Tampered section", "using-pi"),
+      expected: /section mismatch for using-pi at ordinal 0/,
+    },
+    {
+      name: "missing",
+      mutate: (db: DatabaseSync) =>
+        db.prepare("DELETE FROM sections WHERE doc_id = ? AND ordinal = 0").run("using-pi"),
+      expected: /section count mismatch for using-pi/,
+    },
+    {
+      name: "orphan",
+      mutate: (db: DatabaseSync) => {
+        db.exec("PRAGMA foreign_keys = OFF");
+        db.prepare(
+          "INSERT INTO sections (doc_id, ordinal, heading_path, title, body) VALUES (?, ?, ?, ?, ?)",
+        ).run("orphan", 0, "Orphan", "Orphan", "Orphan body");
+      },
+      expected: /orphan sections for document orphan/,
+    },
   ])("reports a $name section row", ({ mutate, expected }) => {
-    const vault = createBuiltFixture(); editIndex(vault, (db) => { mutate(db); });
+    const vault = createBuiltFixture();
+    editIndex(vault, (db) => {
+      mutate(db);
+    });
     expect(checkVault(vault.root).errors.some((error) => expected.test(error))).toBe(true);
   });
 
@@ -210,24 +312,41 @@ describe("checkVault", () => {
     { name: "missing", omitFirst: true, addOrphan: false, expected: "missing=1, orphan=0" },
     { name: "orphan", omitFirst: false, addOrphan: true, expected: "missing=0, orphan=1" },
   ])("reports a $name FTS relationship", ({ omitFirst, addOrphan, expected }) => {
-    const vault = createBuiltFixture(); replaceFtsRows(vault, omitFirst, addOrphan);
+    const vault = createBuiltFixture();
+    replaceFtsRows(vault, omitFirst, addOrphan);
     expect(checkVault(vault.root).errors).toContain(`index: FTS row mismatch (${expected})`);
   });
 
   it("collects independent source errors in manifest order", () => {
-    const vault = createBuiltFixture(); appendFileSync(path.join(vault.root, "sources", "using-pi.html"), "tampered", "utf8"); appendFileSync(path.join(vault.root, "sources", "extensions.md"), "tampered", "utf8");
-    expect(checkVault(vault.root).errors.slice(0, 2)).toEqual(["entry 0: HTML SHA-256 mismatch for https://pi.dev/docs/latest/using-pi", "entry 1: Markdown content hash mismatch for https://pi.dev/docs/latest/extensions"]);
+    const vault = createBuiltFixture();
+    appendFileSync(path.join(vault.root, "sources", "using-pi.html"), "tampered", "utf8");
+    appendFileSync(path.join(vault.root, "sources", "extensions.md"), "tampered", "utf8");
+    expect(checkVault(vault.root).errors.slice(0, 2)).toEqual([
+      "entry 0: HTML SHA-256 mismatch for https://pi.dev/docs/latest/using-pi",
+      "entry 1: Markdown content hash mismatch for https://pi.dev/docs/latest/extensions",
+    ]);
   });
 
   it("does not modify manifest, source, or SQLite bytes", () => {
-    const vault = createBuiltFixture(); const before = fileDigests(vault);
-    expect(checkVault(vault.root).ok).toBe(true); expect(fileDigests(vault)).toEqual(before);
+    const vault = createBuiltFixture();
+    const before = fileDigests(vault);
+    expect(checkVault(vault.root).ok).toBe(true);
+    expect(fileDigests(vault)).toEqual(before);
   });
 
   it("closes the SQLite connection after success and query failure", () => {
-    const vault = createBuiltFixture(); const movedPath = `${vault.dbPath}.moved`; const moveRoundTrip = () => { renameSync(vault.dbPath, movedPath); renameSync(movedPath, vault.dbPath); };
-    expect(checkVault(vault.root).ok).toBe(true); expect(moveRoundTrip).not.toThrow();
-    editIndex(vault, (db) => { db.exec("DROP TABLE sections_fts"); });
-    expect(checkVault(vault.root).errors.some((error) => error.startsWith("index:"))).toBe(true); expect(moveRoundTrip).not.toThrow();
+    const vault = createBuiltFixture();
+    const movedPath = `${vault.dbPath}.moved`;
+    const moveRoundTrip = () => {
+      renameSync(vault.dbPath, movedPath);
+      renameSync(movedPath, vault.dbPath);
+    };
+    expect(checkVault(vault.root).ok).toBe(true);
+    expect(moveRoundTrip).not.toThrow();
+    editIndex(vault, (db) => {
+      db.exec("DROP TABLE sections_fts");
+    });
+    expect(checkVault(vault.root).errors.some((error) => error.startsWith("index:"))).toBe(true);
+    expect(moveRoundTrip).not.toThrow();
   });
 });
