@@ -79,6 +79,7 @@ export async function crawlDocs(options: CrawlOptions): Promise<CrawlResult> {
     while (queue.length > 0) {
       const url = queue.shift();
       if (!url) return;
+      if (canonicalPages.has(url)) continue;
 
       const fetched = await fetchHtml(url, fetchPage, options, baseUrl);
       pages.push(fetched);

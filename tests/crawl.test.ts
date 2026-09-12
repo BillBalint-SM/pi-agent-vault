@@ -70,8 +70,10 @@ describe("crawlDocs", () => {
     const outputDir = mkdtempSync(path.join(os.tmpdir(), "pi-vault-redirect-"));
     roots.push(outputDir);
     let followedRedirect = false;
+    const fetchedUrls: string[] = [];
     const fetchImpl: typeof fetch = (input) => {
       const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+      fetchedUrls.push(url);
       if (url === baseUrl) {
         return Promise.resolve(
           new Response(
@@ -112,8 +114,9 @@ describe("crawlDocs", () => {
       { from: `${baseUrl}/redirected`, to: `${baseUrl}/final` },
     ]);
     expect(readFileSync(path.join(outputDir, "sources", "final.md"), "utf8")).toContain(
-      "Direct final page.",
+      "Redirected final page.",
     );
+    expect(fetchedUrls.filter((url) => url === `${baseUrl}/final`).length).toBe(1);
   });
 
   it("fails when a redirect target leaves the documentation scope", async () => {
