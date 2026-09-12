@@ -114,8 +114,11 @@ git commit -m "build: scaffold pi agent vault"
 - Create: `src/crawl.ts`
 - Create: `tests/canonicalize.test.ts`
 - Create: `tests/extract.test.ts`
+- Create: `tests/crawl.test.ts`
+- Create: `tests/manifest.test.ts`
 - Create: `tests/fixtures/docs-index.html`
 - Create: `tests/fixtures/quickstart.html`
+- Create: `tests/fixtures/llama-cpp.html`
 - Create: `tests/fixtures/invalid-response.txt`
 - Create: `research/official-pi-docs.md` (retain the research sidecar report)
 
