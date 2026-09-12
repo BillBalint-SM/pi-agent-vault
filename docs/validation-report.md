@@ -45,7 +45,7 @@ The cold path starts a new Node process and opens a read-only SQLite connection 
 
 ## Integration checks
 
-- `npm run check`: passed; 12 test files and 30 tests, plus format, lint, and typecheck.
+- `npm run check`: passed; 12 test files and 32 tests, plus format, lint, and typecheck.
 - The installed `C:\Users\littl\.pi\agent\pi-docs.cmd stats --json` shim returned the 30-document/663-section index statistics without network access.
 - The official Pi extension loader smoke test loaded `C:\Users\littl\.pi\agent\extensions\pi-docs-kb\index.ts` with `errors: []`.
 - The temporary installer install/uninstall test wrote only scoped files, then removed only the pointer-listed machine files and left backups/unrelated resources untouched.
