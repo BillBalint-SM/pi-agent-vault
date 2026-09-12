@@ -678,7 +678,7 @@ function cleanupPreviousBackups(parent: string, baseName: string, keep: string |
 }
 
 function resolveDataDir(value: string | undefined): string {
-  return path.resolve(value ?? path.join(process.cwd(), "data"));
+  return path.resolve(value ?? process.env.PI_DOCS_VAULT_ROOT ?? path.join(process.cwd(), "data"));
 }
 
 function ensureTrailingNewline(value: string): string {

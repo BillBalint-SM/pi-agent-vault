@@ -11,3 +11,4 @@ research/
 *.sqlite
 *.sqlite-shm
 *.sqlite-wal
+*.ps1
