@@ -1,4 +1,12 @@
-import { existsSync, mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
 import { spawnSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
@@ -36,6 +44,44 @@ describe("planInstall", () => {
     ).toBe(true);
     expect(plan.backups).toContain(existingSkill);
     expect(plan.writes).toContain(path.join(piAgentDir, "pi-docs-kb.json"));
+    expect(plan.writes).toContain(path.join(portableOutput, "src", "vault-check.ts"));
+  });
+
+  it("copies VaultCheck into the portable CLI runtime", () => {
+    if (process.platform !== "win32") return;
+
+    const root = mkdtempSync(path.join(os.tmpdir(), "pi-vault-portable-check-"));
+    roots.push(root);
+    const piAgentDir = path.join(root, "pi-agent");
+    const portableOutput = path.join(root, "portable");
+    const scriptPath = fileURLToPath(
+      new URL("../scripts/install-pi-integration.ps1", import.meta.url),
+    );
+    const vaultRoot = fileURLToPath(new URL("../data", import.meta.url));
+
+    const result = spawnSync(
+      "pwsh",
+      [
+        "-NoProfile",
+        "-File",
+        scriptPath,
+        "-VaultRoot",
+        vaultRoot,
+        "-PiAgentDir",
+        piAgentDir,
+        "-PortableOutput",
+        portableOutput,
+      ],
+      { encoding: "utf8", windowsHide: true },
+    );
+
+    expect(result.error).toBeUndefined();
+    expect(result.status, result.stderr).toBe(0);
+    const portableCheckPath = path.join(portableOutput, "src", "vault-check.ts");
+    expect(existsSync(portableCheckPath)).toBe(true);
+    expect(readFileSync(portableCheckPath, "utf8")).toContain(
+      "export function checkVault(dataDir: string): CheckReport",
+    );
   });
 
   it("does not include auth, session, or provider files", () => {

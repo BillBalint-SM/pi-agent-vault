@@ -40,6 +40,7 @@ export function planInstall(input: InstallPlanInput): InstallPlan {
     path.join(portableOutput, "package.json"),
     path.join(portableOutput, "package-lock.json"),
     path.join(portableOutput, "src", "cli.ts"),
+    path.join(portableOutput, "src", "vault-check.ts"),
     path.join(portableOutput, "src", "crawl.ts"),
     path.join(portableOutput, "src", "extract.ts"),
     path.join(portableOutput, "src", "index.ts"),

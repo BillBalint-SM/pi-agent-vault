@@ -304,6 +304,7 @@ $portableFiles = @(
   @{ Source = (Join-Path $projectRoot "package.json"); Destination = (Join-Path $portable "package.json") },
   @{ Source = (Join-Path $projectRoot "package-lock.json"); Destination = (Join-Path $portable "package-lock.json") },
   @{ Source = (Join-Path $projectRoot "src\cli.ts"); Destination = (Join-Path $portable "src\cli.ts") },
+  @{ Source = (Join-Path $projectRoot "src\vault-check.ts"); Destination = (Join-Path $portable "src\vault-check.ts") },
   @{ Source = (Join-Path $projectRoot "src\crawl.ts"); Destination = (Join-Path $portable "src\crawl.ts") },
   @{ Source = (Join-Path $projectRoot "src\extract.ts"); Destination = (Join-Path $portable "src\extract.ts") },
   @{ Source = (Join-Path $projectRoot "src\index.ts"); Destination = (Join-Path $portable "src\index.ts") },
