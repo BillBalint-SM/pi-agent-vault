@@ -91,17 +91,15 @@ describe("staged refresh", () => {
         )
         .sort();
     const siblingsBefore = managedSiblingNames();
-    const failedCheck = vi.fn(
-      (dataDir: string): CheckReport => ({
-        ok: false,
-        dataDir: path.resolve(dataDir).replaceAll("\\", "/"),
-        documents: 1,
-        sections: 1,
-        ftsRows: 1,
-        sourceLinks: 1,
-        errors: ["forced staged integrity failure"],
-      }),
-    );
+    const failedCheck = vi.fn((dataDir: string): CheckReport => ({
+      ok: false,
+      dataDir: path.resolve(dataDir).replaceAll("\\", "/"),
+      documents: 1,
+      sections: 1,
+      ftsRows: 1,
+      sourceLinks: 1,
+      errors: ["forced staged integrity failure"],
+    }));
     vi.doMock("../src/vault-check.js", async () => {
       const actual = await vi.importActual("../src/vault-check.js");
       return { ...actual, checkVault: failedCheck };
