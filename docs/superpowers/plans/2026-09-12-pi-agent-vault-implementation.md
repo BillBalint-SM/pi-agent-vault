@@ -65,7 +65,7 @@ describe("resolveVaultPaths", () => {
 
 - [ ] **Step 2: Run the focused test and confirm the missing-module failure**
 
-Run: `npm test -- --run tests/paths.test.ts`
+Run: `npm run test -- tests/paths.test.ts`
 
 Expected: FAIL because `src/paths.ts` and the project test configuration do not yet exist.
 
@@ -91,7 +91,7 @@ Add scripts named `format:check`, `lint`, `typecheck`, `test`, `check`, and `pi-
 
 - [ ] **Step 4: Run the focused test and the configuration checks**
 
-Run: `npm test -- --run tests/paths.test.ts`
+Run: `npm run test -- tests/paths.test.ts`
 
 Expected: PASS with 2 tests.
 
@@ -151,7 +151,7 @@ it("extracts article content without navigation or footer text", () => {
 
 - [ ] **Step 2: Run the focused tests and confirm the red state**
 
-Run: `npm test -- --run tests/canonicalize.test.ts tests/extract.test.ts`
+Run: `npm run test -- tests/canonicalize.test.ts tests/extract.test.ts`
 
 Expected: FAIL because the crawl, extraction, and manifest modules do not yet exist.
 
@@ -165,7 +165,7 @@ Use the global `fetch` with an explicit `User-Agent`, a bounded concurrency of 4
 
 - [ ] **Step 5: Run extraction and fixture tests**
 
-Run: `npm test -- --run tests/canonicalize.test.ts tests/extract.test.ts`
+Run: `npm run test -- tests/canonicalize.test.ts tests/extract.test.ts`
 
 Expected: PASS with all canonicalization and extraction cases.
 
@@ -210,7 +210,7 @@ it("opens the database read-only and does not require network access", () => {
 
 - [ ] **Step 2: Run the focused tests and confirm the red state**
 
-Run: `npm test -- --run tests/index.test.ts tests/search.test.ts`
+Run: `npm run test -- tests/index.test.ts tests/search.test.ts`
 
 Expected: FAIL because the index and search modules do not yet exist.
 
@@ -254,7 +254,7 @@ Tokenize user input into quoted FTS terms, escape embedded quotes, fall back to 
 
 - [ ] **Step 5: Run the focused index/search tests**
 
-Run: `npm test -- --run tests/index.test.ts tests/search.test.ts`
+Run: `npm run test -- tests/index.test.ts tests/search.test.ts`
 
 Expected: PASS with deterministic ordering, bounded output, and zero network calls.
 
@@ -298,7 +298,7 @@ it("failed refresh leaves the previously published index intact", async () => {
 
 - [ ] **Step 2: Run the focused tests and confirm the red state**
 
-Run: `npm test -- --run tests/cli.test.ts tests/refresh.test.ts`
+Run: `npm run test -- tests/cli.test.ts tests/refresh.test.ts`
 
 Expected: FAIL because the CLI and refresh orchestration do not yet exist.
 
@@ -312,7 +312,7 @@ Create a sibling staging directory with a random suffix, run crawl and index bui
 
 - [ ] **Step 5: Run CLI, refresh, and full project checks**
 
-Run: `npm test -- --run tests/cli.test.ts tests/refresh.test.ts`
+Run: `npm run test -- tests/cli.test.ts tests/refresh.test.ts`
 
 Expected: PASS.
 
@@ -361,7 +361,7 @@ it("skill mentions all Pi-documentation triggers and defers full text", () => {
 
 - [ ] **Step 2: Run the focused tests and confirm the red state**
 
-Run: `npm test -- --run tests/pi-extension.test.ts tests/pi-skill.test.ts`
+Run: `npm run test -- tests/pi-extension.test.ts tests/pi-skill.test.ts`
 
 Expected: FAIL because the extension and skill do not yet exist.
 
@@ -375,7 +375,7 @@ The skill frontmatter must name the skill `pi-docs-kb`. Its body must instruct t
 
 - [ ] **Step 5: Run extension contract, skill, and TypeScript checks**
 
-Run: `npm test -- --run tests/pi-extension.test.ts tests/pi-skill.test.ts`
+Run: `npm run test -- tests/pi-extension.test.ts tests/pi-skill.test.ts`
 
 Expected: PASS.
 
@@ -441,7 +441,7 @@ export function planInstall(input: InstallPlanInput): InstallPlan;
 
 - [ ] **Step 2: Run the focused installer test and confirm the red state**
 
-Run: `npm test -- --run tests/installer.test.ts`
+Run: `npm run test -- tests/installer.test.ts`
 
 Expected: FAIL because the installer planning module and PowerShell script do not yet exist.
 
@@ -455,7 +455,7 @@ Export `data/sources`, `data/index`, `data/manifest.json`, `data/refresh-report.
 
 - [ ] **Step 5: Run installer planning and project checks**
 
-Run: `npm test -- --run tests/installer.test.ts`
+Run: `npm run test -- tests/installer.test.ts`
 
 Expected: PASS.
 

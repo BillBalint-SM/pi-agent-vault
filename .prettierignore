@@ -1,0 +1,11 @@
+node_modules/
+coverage/
+.tmp/
+data/
+outputs/
+docs/superpowers/
+research/
+*.html
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
