@@ -37,3 +37,5 @@ pwsh -NoProfile -File scripts/install-pi-integration.ps1 `
 The installer copies only the read-only extension, the `pi-docs-kb` skill, a `pi-docs-kb.json` pointer, the `pi-docs.cmd` shim, and the selected portable artifacts. Existing destination files are backed up before replacement. Use `-Uninstall` to remove only files recorded in the machine pointer; backups, credentials, sessions, and unrelated skills remain untouched. See `docs/operations.md` for recovery and refresh procedures.
 
 The Pi extension reads the vault path from `PI_DOCS_VAULT_ROOT` or `%USERPROFILE%\.pi\agent\pi-docs-kb.json`. Restart Pi after installation so the extension and skill are rediscovered.
+
+The portable export contains the source entry points and lockfile alongside the corpus. From the portable directory, run `npm ci --ignore-scripts` once before using its `pi-docs.cmd` shim; subsequent `search`, `show`, `stats`, `benchmark`, and `check` operations are local.

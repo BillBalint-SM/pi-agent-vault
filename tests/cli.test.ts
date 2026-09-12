@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { appendFileSync, readFileSync } from "node:fs";
 import { afterEach, describe, expect, it } from "vitest";
 import { buildIndex } from "../src/index.js";
 import { runCli } from "../src/cli.js";
@@ -43,5 +43,18 @@ describe("pi-docs CLI", () => {
     const result = await runCli(["check", "--json", "--data", fixture.root]);
     expect(JSON.parse(result.stdout)).toMatchObject({ ok: true, documents: 2, sections: 6 });
     expect(readFileSync(fixture.dbPath)).toBeTruthy();
+  });
+
+  it("check rejects a tampered source snapshot", async () => {
+    fixture = createIndexFixture();
+    buildIndex({ dataDir: fixture.root });
+    appendFileSync(`${fixture.root}/sources/using-pi.html`, "<!-- tampered -->", "utf8");
+
+    const result = await runCli(["check", "--json", "--data", fixture.root]);
+    const report = JSON.parse(result.stdout) as { ok: boolean; errors: string[] };
+
+    expect(result.exitCode).toBe(1);
+    expect(report.ok).toBe(false);
+    expect(report.errors.some((error) => /SHA-256 mismatch/i.test(error))).toBe(true);
   });
 });

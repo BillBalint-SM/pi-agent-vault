@@ -1,0 +1,833 @@
+<!DOCTYPE html><html lang="en" data-theme-storage-key="pi:theme"><head><title>Keybindings · Documentation · Pi</title><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><script>(() => {
+  const root = document.documentElement;
+  const storageKey = "pi:theme";
+  const colorSchemeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  const storedMode = localStorage.getItem(storageKey);
+  const mode = storedMode === "light" || storedMode === "dark" ? storedMode : "system";
+  const theme = mode === "system" ? (colorSchemeMediaQuery.matches ? "dark" : "light") : mode;
+
+  root.dataset.theme = theme;
+  root.dataset.themeMode = mode;
+  root.style.colorScheme = theme;
+})();</script><link rel="preload" href="/fonts/PlantinNowVariable-Upright.woff2" as="font" type="font/woff2" crossorigin="anonymous"/><link rel="preload" href="/fonts/PlantinNowVariable-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous"/><link rel="preload" href="/fonts/DepartureMono-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous"/><link rel="stylesheet" type="text/css" href="/style.css?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd"/><link rel="icon" type="image/svg+xml" href="/favicon.svg"/><link rel="alternate" type="application/rss+xml" title="Pi News" href="/news.xml"/><meta name="description" content="A terminal-based coding agent"/><meta property="og:title" content="Pi Coding Agent"/><meta property="og:type" content="website"/><meta property="og:description" content="A terminal-based coding agent"/><meta property="og:url" content="https://pi.dev"/><meta property="og:image" content="https://pi.dev/social.png"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="There are many agent harnesses, but this one is yours."/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:image" content="https://pi.dev/social.png"/><meta name="twitter:image:alt" content="There are many agent harnesses, but this one is yours."/><meta property="twitter:domain" content="pi.dev"/><meta property="twitter:url" content="https://pi.dev"/><meta name="twitter:title" content="Pi Coding Agent"/><meta name="twitter:description" content="A terminal-based coding agent"/><script>window.__sa=window.__sa||function(){(__sa._=__sa._||[]).push(arguments)}</script><script src="/assets/pi-dev.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd"></script><noscript><style>
+            [data-theme-toggle] {
+              display: none;
+            }
+            @media (max-width: 1023px) {
+              #stickyNav #sticky-nav-inner-js,
+              #stickyNav .nav-sheet-backdrop,
+              #stickyNav .nav-sheet {
+                display: none;
+              }
+              #stickyNav .sticky-nav-noscript-shell {
+                display: flex;
+              }
+            }
+          </style></noscript><script src="/assets/sa.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd" data-auto="false"></script><script src="/assets/logo-context-menu.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd" defer=""></script><script src="/assets/nav-sheet.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd" defer=""></script><script src="/assets/theme-toggle.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd" defer=""></script></head><body><nav class="sticky-nav" id="stickyNav" data-nav-root="true" data-nav-open="false"><div class="sticky-nav-inner" id="sticky-nav-inner-js"><a href="/" class="sticky-nav-logo" aria-label="Pi home" data-logo-context-trigger="true"><svg class="pi-logo-mark" viewBox="0 0 800 800" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M165.29 165.29H517.36V400H400V517.36H282.65V634.72H165.29ZM282.65 282.65V400H400V282.65Z"></path><path fill="currentColor" d="M517.36 400H634.72V634.72H517.36Z"></path></svg></a><div class="logo-context-menu" data-logo-context-menu="true" hidden=""><button type="button" class="logo-context-menu-item" data-logo-context-copy-svg="true">Copy SVG</button><a class="logo-context-menu-item" href="/logo-auto.svg" download="pi-logo.svg" data-logo-context-download="true">Download SVG</a><a class="logo-context-menu-item" href="/press-kit">Press Kit</a></div><div class="sticky-nav-page-links" aria-label="Primary navigation"><a href="/" class="sticky-nav-page-link">Home</a><a href="/docs/latest" class="sticky-nav-page-link is-active" aria-current="page">Documentation</a><a href="/news" class="sticky-nav-page-link">News</a><a href="/packages" class="sticky-nav-page-link">Packages</a><a href="/models" class="sticky-nav-page-link">Models</a></div><button type="button" class="sticky-nav-toggle burger-trigger" aria-controls="navSheet" aria-label="Open menu" aria-expanded="false" data-open="false" data-nav-toggle="true"><span class="bt-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="bt-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="bt-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></span></button></div><noscript><div class="sticky-nav-noscript-shell"><a href="/" class="sticky-nav-logo sticky-nav-noscript-logo" aria-label="Pi home"><svg class="pi-logo-mark" viewBox="0 0 800 800" aria-hidden="true" focusable="false"><path fill="currentColor" fill-rule="evenodd" d="M165.29 165.29H517.36V400H400V517.36H282.65V634.72H165.29ZM282.65 282.65V400H400V282.65Z"></path><path fill="currentColor" d="M517.36 400H634.72V634.72H517.36Z"></path></svg></a><details class="sticky-nav-noscript"><summary class="sticky-nav-noscript-summary"><span class="visually-hidden">Menu</span><span class="sticky-nav-noscript-trigger burger-trigger" aria-hidden="true"><span class="bt-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="bt-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="bt-bar" aria-hidden="true"><span></span><span></span><span></span><span></span></span></span></summary><div class="sticky-nav-noscript-panel"><div class="nav-sheet-inner"><div class="nav-sheet-links"><a href="/" class="nav-sheet-link"><span>Home</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/docs/latest" class="nav-sheet-link is-active" aria-current="page"><span>Documentation</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/news" class="nav-sheet-link"><span>News</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/packages" class="nav-sheet-link"><span>Packages</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/models" class="nav-sheet-link"><span>Models</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a></div><div class="nav-sheet-separator" aria-hidden="true"></div><div class="nav-sheet-meta"><div class="nav-sheet-socials"><a href="https://github.com/earendil-works/pi/tree/main/packages/coding-agent" class="nav-sheet-social" aria-label="GitHub"><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></span><span>GitHub</span></a><a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" class="nav-sheet-social" aria-label="npm"><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M0 0v24h24v-24h-24zm19.2 19.2h-2.4v-9.6h-4.8v9.6h-7.2v-14.4h14.4v14.4z"></path></svg></span><span>npm</span></a><a href="https://discord.com/invite/3cU7Bz4UPx" class="nav-sheet-social" aria-label="Discord"><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path></svg></span><span>Discord</span></a><a href="https://x.com/pidotdev" class="nav-sheet-social" aria-label="X"><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"></path></svg></span><span>X</span></a></div><div class="nav-sheet-separator" aria-hidden="true"></div><div class="nav-sheet-footer"><a href="https://earendil.com" class="nav-sheet-footer-link" title="Earendil Inc. website" aria-label="Earendil Inc. website" target="_blank" rel="noopener"><span class="nav-sheet-footer-mark" aria-hidden="true"><svg class="nav-sheet-earendil-emblem" viewBox="121.24 22.62 81.65 149.38" aria-hidden="true" focusable="false"><path fill="currentColor" d="M202.89 123.89c.4 29.74-40.27 26.97-40.8 48.11h-.05c-.52-21.14-41.19-18.38-40.8-48.11 27.99 0 40.09-46.29 40.82-101.27.74 54.98 12.83 101.27 40.82 101.27h0Z"></path></svg></span><span class="nav-sheet-footer-copy sticky-nav-page-link">Earendil Inc.</span></a></div></div></div></div></details></div></noscript><div class="nav-sheet-backdrop" data-nav-backdrop="true" aria-hidden="true"></div><aside class="nav-sheet" id="navSheet" data-nav-sheet="true" data-open="false" aria-hidden="true" aria-label="Navigation menu" inert=""><div class="nav-sheet-inner"><div class="nav-sheet-links"><a href="/" class="nav-sheet-link" data-nav-sheet-close=""><span>Home</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/docs/latest" class="nav-sheet-link is-active" aria-current="page" data-nav-sheet-close=""><span>Documentation</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/news" class="nav-sheet-link" data-nav-sheet-close=""><span>News</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/packages" class="nav-sheet-link" data-nav-sheet-close=""><span>Packages</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a><a href="/models" class="nav-sheet-link" data-nav-sheet-close=""><span>Models</span><span class="nav-sheet-arrow" aria-hidden="true">→</span></a></div><div class="nav-sheet-separator" aria-hidden="true"></div><div class="nav-sheet-meta"><div class="nav-sheet-socials"><a href="https://github.com/earendil-works/pi/tree/main/packages/coding-agent" class="nav-sheet-social" aria-label="GitHub" data-nav-sheet-close=""><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></span><span>GitHub</span></a><a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" class="nav-sheet-social" aria-label="npm" data-nav-sheet-close=""><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M0 0v24h24v-24h-24zm19.2 19.2h-2.4v-9.6h-4.8v9.6h-7.2v-14.4h14.4v14.4z"></path></svg></span><span>npm</span></a><a href="https://discord.com/invite/3cU7Bz4UPx" class="nav-sheet-social" aria-label="Discord" data-nav-sheet-close=""><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path></svg></span><span>Discord</span></a><a href="https://x.com/pidotdev" class="nav-sheet-social" aria-label="X" data-nav-sheet-close=""><span class="nav-sheet-social-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"></path></svg></span><span>X</span></a></div><div class="nav-sheet-separator" aria-hidden="true"></div><div class="nav-sheet-footer"><a href="https://earendil.com" class="nav-sheet-footer-link" title="Earendil Inc. website" aria-label="Earendil Inc. website" target="_blank" rel="noopener" data-nav-sheet-close=""><span class="nav-sheet-footer-mark" aria-hidden="true"><svg class="nav-sheet-earendil-emblem" viewBox="121.24 22.62 81.65 149.38" aria-hidden="true" focusable="false"><path fill="currentColor" d="M202.89 123.89c.4 29.74-40.27 26.97-40.8 48.11h-.05c-.52-21.14-41.19-18.38-40.8-48.11 27.99 0 40.09-46.29 40.82-101.27.74 54.98 12.83 101.27 40.82 101.27h0Z"></path></svg></span><span class="nav-sheet-footer-copy sticky-nav-page-link">Earendil Inc.</span></a></div></div></div></aside></nav><div class="site-tilt-layer"><main class="content-shell docs-page"><header class="content-hero"><p class="content-title">Documentation</p><p class="content-description">Guides and references for configuring and extending Pi.</p></header><section class="docs-layout"><div class="docs-mobile-tools"><details class="surface-panel docs-mobile-disclosure docs-mobile-navigation"><summary>Navigation</summary><div class="docs-mobile-disclosure-body docs-mobile-navigation-body"><div class="docs-mobile-nav-section"><p class="docs-mobile-nav-heading">On this page</p><nav class="docs-toc-links" aria-label="On this page"><a class="docs-toc-link docs-toc-link-depth-2" href="#key-format">Key Format</a><a class="docs-toc-link docs-toc-link-depth-2" href="#all-actions">All Actions</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-editor-cursor-movement">TUI Editor Cursor Movement</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-editor-deletion">TUI Editor Deletion</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-input">TUI Input</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-kill-ring">TUI Kill Ring</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-clipboard-and-selection">TUI Clipboard and Selection</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-fullscreen-viewport">TUI Fullscreen Viewport</a><a class="docs-toc-link docs-toc-link-depth-3" href="#application">Application</a><a class="docs-toc-link docs-toc-link-depth-3" href="#sessions">Sessions</a><a class="docs-toc-link docs-toc-link-depth-3" href="#models-and-thinking">Models and Thinking</a><a class="docs-toc-link docs-toc-link-depth-3" href="#display-and-message-queue">Display and Message Queue</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tree-navigation">Tree Navigation</a><a class="docs-toc-link docs-toc-link-depth-3" href="#scoped-models-selector">Scoped Models Selector</a><a class="docs-toc-link docs-toc-link-depth-2" href="#custom-configuration">Custom Configuration</a><a class="docs-toc-link docs-toc-link-depth-3" href="#emacs-example">Emacs Example</a><a class="docs-toc-link docs-toc-link-depth-3" href="#vim-example">Vim Example</a></nav></div><details class="docs-mobile-docs-disclosure"><summary>Documentation</summary><div class="docs-mobile-docs-disclosure-body"><nav class="docs-nav-groups" aria-label="Documentation navigation"><section class="docs-nav-group"><h2>Start here</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest">Overview</a><a class="docs-nav-link" href="/docs/latest/quickstart">Quickstart</a><a class="docs-nav-link" href="/docs/latest/usage">Using Pi</a><a class="docs-nav-link" href="/docs/latest/providers">Providers</a><a class="docs-nav-link" href="/docs/latest/security">Security</a><a class="docs-nav-link" href="/docs/latest/containerization">Containerization</a><a class="docs-nav-link" href="/docs/latest/settings">Settings</a><a class="docs-nav-link is-active" href="/docs/latest/keybindings">Keybindings</a><a class="docs-nav-link" href="/docs/latest/sessions">Sessions</a><a class="docs-nav-link" href="/docs/latest/compaction">Compaction</a></div></section><section class="docs-nav-group"><h2>Customization</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/extensions">Extensions</a><a class="docs-nav-link" href="/docs/latest/skills">Skills</a><a class="docs-nav-link" href="/docs/latest/prompt-templates">Prompt Templates</a><a class="docs-nav-link" href="/docs/latest/themes">Themes</a><a class="docs-nav-link" href="/docs/latest/packages">Pi Packages</a><a class="docs-nav-link" href="/docs/latest/models">Custom Models</a><a class="docs-nav-link" href="/docs/latest/custom-provider">Custom Providers</a></div></section><section class="docs-nav-group"><h2>Reference</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/environment-variables">Environment Variables</a><a class="docs-nav-link" href="/docs/latest/session-format">Session Format</a></div></section><section class="docs-nav-group"><h2>Programmatic Usage</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/sdk">SDK</a><a class="docs-nav-link" href="/docs/latest/rpc">RPC Mode</a><a class="docs-nav-link" href="/docs/latest/json">JSON Event Stream Mode</a><a class="docs-nav-link" href="/docs/latest/tui">TUI Components</a></div></section><section class="docs-nav-group"><h2>Platform Setup</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/windows">Windows</a><a class="docs-nav-link" href="/docs/latest/termux">Termux on Android</a><a class="docs-nav-link" href="/docs/latest/tmux">tmux</a><a class="docs-nav-link" href="/docs/latest/terminal-setup">Terminal Setup</a><a class="docs-nav-link" href="/docs/latest/shell-aliases">Shell Aliases</a></div></section><section class="docs-nav-group"><h2>Development</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/development">Development</a></div></section></nav></div></details></div></details></div><section class="docs-search" aria-label="Search documentation" data-docs-search="true" data-docs-search-index-url="/docs/latest/search-index.json" data-docs-search-minisearch-src="/assets/vendor/minisearch.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd" data-state="idle"><form class="docs-search-form" action="/docs/latest" role="search" data-docs-search-form="true"><label class="visually-hidden" for="docs-search-input-latest">Search documentation</label><div class="docs-search-field"><span class="docs-search-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M22 22h-2v-2h2v2Zm-2-2h-2v-2h2v2Zm-6-2H6v-2h8v2Zm4 0h-2v-2h2v2ZM6 16H4v-2h2v2Zm10 0h-2v-2h2v2ZM4 14H2V6h2v8Zm14 0h-2V6h2v8ZM6 6H4V4h2v2Zm10 0h-2V4h2v2Zm-2-2H6V2h8v2Z"></path></svg></span><input id="docs-search-input-latest" class="text-control docs-search-input" type="search" name="q" placeholder="Search documentation…" autocomplete="off" autocapitalize="none" spellcheck="false" aria-controls="docs-search-results-latest" data-docs-search-input="true"/><kbd class="docs-search-shortcut" aria-hidden="true" data-docs-search-shortcut="true">⌘ K</kbd><button class="docs-search-clear" type="button" aria-label="Clear search" data-docs-search-clear="true" hidden=""><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="24" viewBox="0 0 24 24" width="24" aria-hidden="true"><path d="M5 5h2v2H5zm2 2h2v2H7zm2 2h2v2H9zm2 2h2v2h-2zm2-2h2v2h-2zm2-2h2v2h-2zm2-2h2v2h-2zM9 13h2v2H9zm-2 2h2v2H7zm-2 2h2v2H5zm8-4h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2z"></path></svg></button></div></form><div class="docs-search-panel" data-docs-search-panel="true" hidden=""><p id="docs-search-message-latest" class="docs-search-message" data-docs-search-message="true" aria-live="polite"></p><div id="docs-search-results-latest" class="docs-search-results" data-docs-search-results="true"></div></div><template data-docs-search-result-template="true"><li class="docs-search-result" hidden=""><a class="docs-search-result-link" href="#"><span class="docs-search-result-meta"></span><strong class="docs-search-result-title"></strong><span class="docs-search-result-excerpt"></span></a></li></template></section><aside class="docs-nav-rail"><section class="surface-panel content-card docs-side-card docs-nav-card"><header class="content-card-header"><h2 class="content-card-title"><span class="docs-brand-mark"><span>Documentation</span></span></h2></header><div class="content-card-body"><nav class="docs-nav-groups" aria-label="Documentation navigation"><section class="docs-nav-group"><h2>Start here</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest">Overview</a><a class="docs-nav-link" href="/docs/latest/quickstart">Quickstart</a><a class="docs-nav-link" href="/docs/latest/usage">Using Pi</a><a class="docs-nav-link" href="/docs/latest/providers">Providers</a><a class="docs-nav-link" href="/docs/latest/security">Security</a><a class="docs-nav-link" href="/docs/latest/containerization">Containerization</a><a class="docs-nav-link" href="/docs/latest/settings">Settings</a><a class="docs-nav-link is-active" href="/docs/latest/keybindings">Keybindings</a><a class="docs-nav-link" href="/docs/latest/sessions">Sessions</a><a class="docs-nav-link" href="/docs/latest/compaction">Compaction</a></div></section><section class="docs-nav-group"><h2>Customization</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/extensions">Extensions</a><a class="docs-nav-link" href="/docs/latest/skills">Skills</a><a class="docs-nav-link" href="/docs/latest/prompt-templates">Prompt Templates</a><a class="docs-nav-link" href="/docs/latest/themes">Themes</a><a class="docs-nav-link" href="/docs/latest/packages">Pi Packages</a><a class="docs-nav-link" href="/docs/latest/models">Custom Models</a><a class="docs-nav-link" href="/docs/latest/custom-provider">Custom Providers</a></div></section><section class="docs-nav-group"><h2>Reference</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/environment-variables">Environment Variables</a><a class="docs-nav-link" href="/docs/latest/session-format">Session Format</a></div></section><section class="docs-nav-group"><h2>Programmatic Usage</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/sdk">SDK</a><a class="docs-nav-link" href="/docs/latest/rpc">RPC Mode</a><a class="docs-nav-link" href="/docs/latest/json">JSON Event Stream Mode</a><a class="docs-nav-link" href="/docs/latest/tui">TUI Components</a></div></section><section class="docs-nav-group"><h2>Platform Setup</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/windows">Windows</a><a class="docs-nav-link" href="/docs/latest/termux">Termux on Android</a><a class="docs-nav-link" href="/docs/latest/tmux">tmux</a><a class="docs-nav-link" href="/docs/latest/terminal-setup">Terminal Setup</a><a class="docs-nav-link" href="/docs/latest/shell-aliases">Shell Aliases</a></div></section><section class="docs-nav-group"><h2>Development</h2><div class="docs-nav-links"><a class="docs-nav-link" href="/docs/latest/development">Development</a></div></section></nav></div></section></aside><aside class="docs-toc-rail"><section class="surface-panel content-card docs-side-card docs-toc-card"><header class="content-card-header"><h2 class="content-card-title">On this page</h2></header><div class="content-card-body"><nav class="docs-toc-links" aria-label="On this page"><a class="docs-toc-link docs-toc-link-depth-2" href="#key-format">Key Format</a><a class="docs-toc-link docs-toc-link-depth-2" href="#all-actions">All Actions</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-editor-cursor-movement">TUI Editor Cursor Movement</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-editor-deletion">TUI Editor Deletion</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-input">TUI Input</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-kill-ring">TUI Kill Ring</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-clipboard-and-selection">TUI Clipboard and Selection</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-fullscreen-viewport">TUI Fullscreen Viewport</a><a class="docs-toc-link docs-toc-link-depth-3" href="#application">Application</a><a class="docs-toc-link docs-toc-link-depth-3" href="#sessions">Sessions</a><a class="docs-toc-link docs-toc-link-depth-3" href="#models-and-thinking">Models and Thinking</a><a class="docs-toc-link docs-toc-link-depth-3" href="#display-and-message-queue">Display and Message Queue</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tree-navigation">Tree Navigation</a><a class="docs-toc-link docs-toc-link-depth-3" href="#scoped-models-selector">Scoped Models Selector</a><a class="docs-toc-link docs-toc-link-depth-2" href="#custom-configuration">Custom Configuration</a><a class="docs-toc-link docs-toc-link-depth-3" href="#emacs-example">Emacs Example</a><a class="docs-toc-link docs-toc-link-depth-3" href="#vim-example">Vim Example</a></nav></div></section></aside><div class="docs-main-column"><div class="docs-toc-inline"><details class="surface-panel docs-toc-summary"><summary>On this page</summary><div class="docs-toc-summary-body"><nav class="docs-toc-links" aria-label="On this page"><a class="docs-toc-link docs-toc-link-depth-2" href="#key-format">Key Format</a><a class="docs-toc-link docs-toc-link-depth-2" href="#all-actions">All Actions</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-editor-cursor-movement">TUI Editor Cursor Movement</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-editor-deletion">TUI Editor Deletion</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-input">TUI Input</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-kill-ring">TUI Kill Ring</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-clipboard-and-selection">TUI Clipboard and Selection</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tui-fullscreen-viewport">TUI Fullscreen Viewport</a><a class="docs-toc-link docs-toc-link-depth-3" href="#application">Application</a><a class="docs-toc-link docs-toc-link-depth-3" href="#sessions">Sessions</a><a class="docs-toc-link docs-toc-link-depth-3" href="#models-and-thinking">Models and Thinking</a><a class="docs-toc-link docs-toc-link-depth-3" href="#display-and-message-queue">Display and Message Queue</a><a class="docs-toc-link docs-toc-link-depth-3" href="#tree-navigation">Tree Navigation</a><a class="docs-toc-link docs-toc-link-depth-3" href="#scoped-models-selector">Scoped Models Selector</a><a class="docs-toc-link docs-toc-link-depth-2" href="#custom-configuration">Custom Configuration</a><a class="docs-toc-link docs-toc-link-depth-3" href="#emacs-example">Emacs Example</a><a class="docs-toc-link docs-toc-link-depth-3" href="#vim-example">Vim Example</a></nav></div></details></div><section class="surface-panel content-card docs-article-card"><div class="content-card-body"><header class="docs-article-header"><div class="docs-article-title-row"><h1 class="docs-page-title">Keybindings</h1><div class="docs-article-meta"><span class="docs-article-version">Latest</span><span class="docs-article-meta-separator" aria-hidden="true">·</span><a class="docs-article-action" href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/keybindings.md" aria-label="View source on GitHub"><span class="docs-article-action-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></span></a><span class="docs-article-meta-separator" aria-hidden="true">·</span><a class="docs-article-action" href="https://github.com/earendil-works/pi/edit/main/packages/coding-agent/docs/keybindings.md" aria-label="Edit this page on GitHub"><span class="docs-article-action-icon docs-article-action-icon-edit"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 1h2v1h1v1h1v3h-1v1h-1v1h-1v1h-1v1h-1v1H9v1H8v1H7v1H6v1H1v-5h1V9h1V8h1V7h1V6h1V5h1V4h1V3h1V2h2zm1 2h-1v1h-1v1H9v1H8v1H7v1H6v1H5v1H4v1H3v2h2v-1h1v-1h1v-1h1V9h1V8h1V7h1V6h1V5h1V4h-1z"></path></svg></span></a></div></div></header><div class="rich-text docs-prose"><p>All keyboard shortcuts can be customized via <code>~/.pi/agent/keybindings.json</code>. Each action can be bound to one or more keys.</p>
+<p>The config file uses the same namespaced keybinding ids that pi uses internally and that extension authors use in <code>keyHint()</code> and injected <code>keybindings</code> managers.</p>
+<p>Older configs using pre-namespaced ids such as <code>cursorUp</code> or <code>expandTools</code> are migrated automatically to the namespaced ids on startup.</p>
+<p>After editing <code>keybindings.json</code>, run <code>/reload</code> in pi to apply the changes without restarting the session.</p>
+<div class="markdown-heading depth-2">
+        <h2 id="key-format" tabindex="-1">
+          Key Format
+        </h2>
+        <a href="#key-format" class="heading-anchor" aria-label="Permalink: Key Format" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#key-format">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<p><code>modifier+key</code> where modifiers are <code>ctrl</code>, <code>shift</code>, <code>alt</code>, <code>super</code> (combinable) and keys are:</p>
+<ul>
+<li><strong>Letters:</strong> <code>a-z</code></li>
+<li><strong>Digits:</strong> <code>0-9</code></li>
+<li><strong>Special:</strong> <code>escape</code>, <code>esc</code>, <code>enter</code>, <code>return</code>, <code>tab</code>, <code>space</code>, <code>backspace</code>, <code>delete</code>, <code>insert</code>, <code>clear</code>, <code>home</code>, <code>end</code>, <code>pageUp</code>, <code>pageDown</code>, <code>up</code>, <code>down</code>, <code>left</code>, <code>right</code></li>
+<li><strong>Function:</strong> <code>f1</code>-<code>f12</code></li>
+<li><strong>Symbols:</strong> <code>`</code>, <code>-</code>, <code>=</code>, <code>[</code>, <code>]</code>, <code>\</code>, <code>;</code>, <code>&#39;</code>, <code>,</code>, <code>.</code>, <code>/</code>, <code>!</code>, <code>@</code>, <code>#</code>, <code>$</code>, <code>%</code>, <code>^</code>, <code>&amp;</code>, <code>*</code>, <code>(</code>, <code>)</code>, <code>_</code>, <code>+</code>, <code>|</code>, <code>~</code>, <code>{</code>, <code>}</code>, <code>:</code>, <code>&lt;</code>, <code>&gt;</code>, <code>?</code></li>
+</ul>
+<p>Modifier combinations: <code>ctrl+shift+x</code>, <code>alt+ctrl+x</code>, <code>ctrl+shift+alt+x</code>, <code>super+k</code>, <code>ctrl+super+k</code>, <code>ctrl+1</code>, etc.</p>
+<p><code>super</code> bindings require a terminal that reports the modifier separately, typically through the Kitty keyboard protocol. They may not work in terminals without that support.</p>
+<div class="markdown-heading depth-2">
+        <h2 id="all-actions" tabindex="-1">
+          All Actions
+        </h2>
+        <a href="#all-actions" class="heading-anchor" aria-label="Permalink: All Actions" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#all-actions">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<div class="markdown-heading depth-3">
+        <h3 id="tui-editor-cursor-movement" tabindex="-1">
+          TUI Editor Cursor Movement
+        </h3>
+        <a href="#tui-editor-cursor-movement" class="heading-anchor" aria-label="Permalink: TUI Editor Cursor Movement" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tui-editor-cursor-movement">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tui.editor.cursorUp</code></td>
+<td><code>up</code></td>
+<td>Move cursor up, browsing older history at the top</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorDown</code></td>
+<td><code>down</code></td>
+<td>Move cursor down, browsing newer history at the bottom</td>
+</tr>
+<tr>
+<td><code>tui.editor.historyPrevious</code></td>
+<td><em>(none)</em></td>
+<td>Select the previous prompt history entry</td>
+</tr>
+<tr>
+<td><code>tui.editor.historyNext</code></td>
+<td><em>(none)</em></td>
+<td>Select the next prompt history entry</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorLeft</code></td>
+<td><code>left</code>, <code>ctrl+b</code></td>
+<td>Move cursor left</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorRight</code></td>
+<td><code>right</code>, <code>ctrl+f</code></td>
+<td>Move cursor right</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorWordLeft</code></td>
+<td><code>alt+left</code>, <code>ctrl+left</code>, <code>alt+b</code></td>
+<td>Move cursor word left</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorWordRight</code></td>
+<td><code>alt+right</code>, <code>ctrl+right</code>, <code>alt+f</code></td>
+<td>Move cursor word right</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorLineStart</code></td>
+<td><code>home</code>, <code>ctrl+home</code>, <code>ctrl+a</code></td>
+<td>Move to line start</td>
+</tr>
+<tr>
+<td><code>tui.editor.cursorLineEnd</code></td>
+<td><code>end</code>, <code>ctrl+end</code>, <code>ctrl+e</code></td>
+<td>Move to line end</td>
+</tr>
+<tr>
+<td><code>tui.editor.jumpForward</code></td>
+<td><code>ctrl+]</code></td>
+<td>Jump forward to character</td>
+</tr>
+<tr>
+<td><code>tui.editor.jumpBackward</code></td>
+<td><code>ctrl+alt+]</code></td>
+<td>Jump backward to character</td>
+</tr>
+<tr>
+<td><code>tui.editor.pageUp</code></td>
+<td><code>pageUp</code>, <code>ctrl+pageUp</code></td>
+<td>Scroll up by page</td>
+</tr>
+<tr>
+<td><code>tui.editor.pageDown</code></td>
+<td><code>pageDown</code>, <code>ctrl+pageDown</code></td>
+<td>Scroll down by page</td>
+</tr>
+</tbody></table>
+<p>The dedicated history actions always change history entries, regardless of the cursor position in a multiline prompt. Explicit history bindings take precedence over application actions while the main editor is focused, so binding <code>tui.editor.historyPrevious</code> to <code>ctrl+p</code> overrides model cycling in that context without changing <code>Ctrl+P</code> in selectors.</p>
+<div class="markdown-heading depth-3">
+        <h3 id="tui-editor-deletion" tabindex="-1">
+          TUI Editor Deletion
+        </h3>
+        <a href="#tui-editor-deletion" class="heading-anchor" aria-label="Permalink: TUI Editor Deletion" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tui-editor-deletion">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tui.editor.deleteCharBackward</code></td>
+<td><code>backspace</code></td>
+<td>Delete character backward</td>
+</tr>
+<tr>
+<td><code>tui.editor.deleteCharForward</code></td>
+<td><code>delete</code>, <code>ctrl+d</code></td>
+<td>Delete character forward</td>
+</tr>
+<tr>
+<td><code>tui.editor.deleteWordBackward</code></td>
+<td><code>ctrl+w</code>, <code>alt+backspace</code></td>
+<td>Delete word backward</td>
+</tr>
+<tr>
+<td><code>tui.editor.deleteWordForward</code></td>
+<td><code>alt+d</code>, <code>alt+delete</code></td>
+<td>Delete word forward</td>
+</tr>
+<tr>
+<td><code>tui.editor.deleteToLineStart</code></td>
+<td><code>ctrl+u</code></td>
+<td>Delete to line start</td>
+</tr>
+<tr>
+<td><code>tui.editor.deleteToLineEnd</code></td>
+<td><code>ctrl+k</code></td>
+<td>Delete to line end</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="tui-input" tabindex="-1">
+          TUI Input
+        </h3>
+        <a href="#tui-input" class="heading-anchor" aria-label="Permalink: TUI Input" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tui-input">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tui.input.newLine</code></td>
+<td><code>shift+enter</code>, <code>ctrl+j</code></td>
+<td>Insert new line</td>
+</tr>
+<tr>
+<td><code>tui.input.submit</code></td>
+<td><code>enter</code></td>
+<td>Submit input</td>
+</tr>
+<tr>
+<td><code>tui.input.tab</code></td>
+<td><code>tab</code></td>
+<td>Tab / autocomplete</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="tui-kill-ring" tabindex="-1">
+          TUI Kill Ring
+        </h3>
+        <a href="#tui-kill-ring" class="heading-anchor" aria-label="Permalink: TUI Kill Ring" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tui-kill-ring">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tui.editor.yank</code></td>
+<td><code>ctrl+y</code></td>
+<td>Paste most recently deleted text</td>
+</tr>
+<tr>
+<td><code>tui.editor.yankPop</code></td>
+<td><code>alt+y</code></td>
+<td>Cycle through deleted text after yank</td>
+</tr>
+<tr>
+<td><code>tui.editor.undo</code></td>
+<td><code>ctrl+-</code> (<code>ctrl+z</code> on Windows; <code>alt+z</code> on WSL)</td>
+<td>Undo last edit</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="tui-clipboard-and-selection" tabindex="-1">
+          TUI Clipboard and Selection
+        </h3>
+        <a href="#tui-clipboard-and-selection" class="heading-anchor" aria-label="Permalink: TUI Clipboard and Selection" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tui-clipboard-and-selection">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tui.input.copy</code></td>
+<td><code>ctrl+c</code></td>
+<td>Copy selection</td>
+</tr>
+<tr>
+<td><code>tui.select.up</code></td>
+<td><code>up</code></td>
+<td>Move selection up</td>
+</tr>
+<tr>
+<td><code>tui.select.down</code></td>
+<td><code>down</code></td>
+<td>Move selection down</td>
+</tr>
+<tr>
+<td><code>tui.select.pageUp</code></td>
+<td><code>pageUp</code></td>
+<td>Page up in list</td>
+</tr>
+<tr>
+<td><code>tui.select.pageDown</code></td>
+<td><code>pageDown</code></td>
+<td>Page down in list</td>
+</tr>
+<tr>
+<td><code>tui.select.confirm</code></td>
+<td><code>enter</code></td>
+<td>Confirm selection</td>
+</tr>
+<tr>
+<td><code>tui.select.cancel</code></td>
+<td><code>escape</code>, <code>ctrl+c</code></td>
+<td>Cancel selection</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="tui-fullscreen-viewport" tabindex="-1">
+          TUI Fullscreen Viewport
+        </h3>
+        <a href="#tui-fullscreen-viewport" class="heading-anchor" aria-label="Permalink: TUI Fullscreen Viewport" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tui-fullscreen-viewport">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<p>These actions apply when interactive mode uses <code>--tui-mode fullscreen</code> and target the primary transcript scroll region. Two-finger trackpad and mouse-wheel input scroll the region under the pointer, falling back to the transcript over the fixed editor/status/footer dock. Clicking an OSC 8 hyperlink opens it in the default handler. Dragging with the primary mouse button selects text and copies it to the clipboard; holding at the transcript&#39;s top or bottom edge auto-scrolls into off-screen content. While the transcript is scrolled up, a clickable &quot;Jump to latest message&quot; label on its bottom row shows the <code>tui.altScreen.bottom</code> shortcut. See <a href="/docs/latest/terminal-setup">Terminal setup</a> for terminal-specific mouse and trackpad behavior.</p>
+<p>Fullscreen transcript bindings take precedence over editor bindings. The default unmodified navigation keys therefore control the transcript in fullscreen mode, while their <code>ctrl</code> variants continue to control the editor. Outside fullscreen mode, both variants control the editor.</p>
+<p>The transcript search panel shows the configured previous/next shortcuts and clickable arrow controls. Press <code>tui.altScreen.search</code> again, or use <code>tui.altScreen.searchClose</code>, to close it.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default mode</th>
+<th>Fullscreen mode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>home</code>, <code>end</code></td>
+<td>Editor</td>
+<td>Transcript</td>
+</tr>
+<tr>
+<td><code>ctrl+home</code>, <code>ctrl+end</code></td>
+<td>Editor</td>
+<td>Editor</td>
+</tr>
+<tr>
+<td><code>pageUp</code>, <code>pageDown</code></td>
+<td>Editor</td>
+<td>Transcript</td>
+</tr>
+<tr>
+<td><code>ctrl+pageUp</code>, <code>ctrl+pageDown</code></td>
+<td>Editor</td>
+<td>Editor</td>
+</tr>
+</tbody></table>
+<p>This routing remains configurable through the ordinary action bindings. For example, <code>&quot;tui.altScreen.pageUp&quot;: &quot;ctrl+pageUp&quot;</code> makes <code>pageUp</code> control the editor and <code>ctrl+pageUp</code> control the transcript in fullscreen mode. Bind <code>tui.altScreen.halfPageUp</code> and <code>tui.altScreen.halfPageDown</code> for half-page steps, or bind <code>tui.altScreen.lineUp</code> and <code>tui.altScreen.lineDown</code> for single-line steps. Setting <code>&quot;tui.altScreen.pageUp&quot;: []</code> disables that transcript shortcut entirely. User bindings replace the defaults for that action.</p>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tui.altScreen.pageUp</code></td>
+<td><code>pageUp</code></td>
+<td>Scroll the transcript up by one page</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.pageDown</code></td>
+<td><code>pageDown</code></td>
+<td>Scroll the transcript down by one page</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.halfPageUp</code></td>
+<td><em>(none)</em></td>
+<td>Scroll the transcript up by half a page</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.halfPageDown</code></td>
+<td><em>(none)</em></td>
+<td>Scroll the transcript down by half a page</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.lineUp</code></td>
+<td><em>(none)</em></td>
+<td>Scroll the transcript up by one line</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.lineDown</code></td>
+<td><em>(none)</em></td>
+<td>Scroll the transcript down by one line</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.previousPrompt</code></td>
+<td><code>ctrl+shift+up</code>, <code>ctrl+up</code> (<code>ctrl+up</code> only on Windows and WSL)</td>
+<td>Jump to the previous marked message</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.nextPrompt</code></td>
+<td><code>ctrl+shift+down</code>, <code>ctrl+down</code> (<code>ctrl+down</code> only on Windows and WSL)</td>
+<td>Jump to the next marked message</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.search</code></td>
+<td><code>ctrl+shift+f</code> (<code>ctrl+f</code> on Windows and WSL)</td>
+<td>Search the rendered transcript</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.searchNext</code></td>
+<td><code>enter</code>, <code>ctrl+g</code></td>
+<td>Select the next search match while searching</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.searchPrevious</code></td>
+<td><code>shift+enter</code>, <code>ctrl+shift+g</code></td>
+<td>Select the previous search match while searching</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.searchClose</code></td>
+<td><code>escape</code></td>
+<td>Close transcript search</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.top</code></td>
+<td><code>home</code></td>
+<td>Scroll to the beginning of the transcript</td>
+</tr>
+<tr>
+<td><code>tui.altScreen.bottom</code></td>
+<td><code>end</code></td>
+<td>Scroll to the transcript end and follow new output</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="application" tabindex="-1">
+          Application
+        </h3>
+        <a href="#application" class="heading-anchor" aria-label="Permalink: Application" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#application">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app.interrupt</code></td>
+<td><code>escape</code></td>
+<td>Cancel / abort</td>
+</tr>
+<tr>
+<td><code>app.clear</code></td>
+<td><code>ctrl+c</code></td>
+<td>Clear editor (first) / exit (second)</td>
+</tr>
+<tr>
+<td><code>app.exit</code></td>
+<td><code>ctrl+d</code></td>
+<td>Exit (when editor empty)</td>
+</tr>
+<tr>
+<td><code>app.suspend</code></td>
+<td><code>ctrl+z</code> (none on Windows)</td>
+<td>Suspend to background</td>
+</tr>
+<tr>
+<td><code>app.editor.external</code></td>
+<td><code>ctrl+g</code></td>
+<td>Open in external editor (<code>externalEditor</code>, <code>$VISUAL</code>, <code>$EDITOR</code>, Notepad on Windows, or <code>nano</code> elsewhere)</td>
+</tr>
+<tr>
+<td><code>app.clipboard.pasteImage</code></td>
+<td><code>ctrl+v</code> (<code>alt+v</code> on Windows and WSL)</td>
+<td>Paste image or text from clipboard</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="sessions" tabindex="-1">
+          Sessions
+        </h3>
+        <a href="#sessions" class="heading-anchor" aria-label="Permalink: Sessions" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#sessions">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app.session.new</code></td>
+<td><em>(none)</em></td>
+<td>Start a new session (<code>/new</code>)</td>
+</tr>
+<tr>
+<td><code>app.session.tree</code></td>
+<td><em>(none)</em></td>
+<td>Open session tree navigator (<code>/tree</code>)</td>
+</tr>
+<tr>
+<td><code>app.session.fork</code></td>
+<td><em>(none)</em></td>
+<td>Fork current session (<code>/fork</code>)</td>
+</tr>
+<tr>
+<td><code>app.session.resume</code></td>
+<td><em>(none)</em></td>
+<td>Open session resume picker (<code>/resume</code>)</td>
+</tr>
+<tr>
+<td><code>app.session.togglePath</code></td>
+<td><code>ctrl+p</code></td>
+<td>Toggle path display</td>
+</tr>
+<tr>
+<td><code>app.session.toggleSort</code></td>
+<td><code>ctrl+s</code></td>
+<td>Toggle sort mode</td>
+</tr>
+<tr>
+<td><code>app.session.toggleNamedFilter</code></td>
+<td><code>ctrl+n</code></td>
+<td>Toggle named-only filter</td>
+</tr>
+<tr>
+<td><code>app.session.rename</code></td>
+<td><code>ctrl+r</code></td>
+<td>Rename session</td>
+</tr>
+<tr>
+<td><code>app.session.delete</code></td>
+<td><code>ctrl+d</code></td>
+<td>Delete session</td>
+</tr>
+<tr>
+<td><code>app.session.deleteNoninvasive</code></td>
+<td><code>ctrl+backspace</code></td>
+<td>Delete session when query is empty</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="models-and-thinking" tabindex="-1">
+          Models and Thinking
+        </h3>
+        <a href="#models-and-thinking" class="heading-anchor" aria-label="Permalink: Models and Thinking" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#models-and-thinking">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app.model.select</code></td>
+<td><code>ctrl+l</code></td>
+<td>Open model selector</td>
+</tr>
+<tr>
+<td><code>app.model.cycleForward</code></td>
+<td><code>ctrl+p</code></td>
+<td>Cycle to next model</td>
+</tr>
+<tr>
+<td><code>app.model.cycleBackward</code></td>
+<td><code>shift+ctrl+p</code> (<code>alt+p</code> on Windows and WSL)</td>
+<td>Cycle to previous model</td>
+</tr>
+<tr>
+<td><code>app.models.save</code></td>
+<td><code>ctrl+s</code></td>
+<td>Save the selected default model or scoped model configuration to settings</td>
+</tr>
+<tr>
+<td><code>app.thinking.cycle</code></td>
+<td><code>shift+tab</code></td>
+<td>Cycle thinking level</td>
+</tr>
+<tr>
+<td><code>app.thinking.save</code></td>
+<td><code>ctrl+s</code></td>
+<td>Save current thinking level to settings</td>
+</tr>
+<tr>
+<td><code>app.thinking.toggle</code></td>
+<td><code>ctrl+t</code></td>
+<td>Collapse or expand thinking blocks</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="display-and-message-queue" tabindex="-1">
+          Display and Message Queue
+        </h3>
+        <a href="#display-and-message-queue" class="heading-anchor" aria-label="Permalink: Display and Message Queue" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#display-and-message-queue">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app.tools.expand</code></td>
+<td><code>ctrl+o</code></td>
+<td>Collapse or expand tool output</td>
+</tr>
+<tr>
+<td><code>app.message.copy</code></td>
+<td><code>ctrl+x</code></td>
+<td>Copy the selected message in <code>/tree</code>; otherwise copy the last assistant message, or the active fullscreen text selection when <code>fullscreenCopyOnSelect</code> is disabled</td>
+</tr>
+<tr>
+<td><code>app.message.followUp</code></td>
+<td><code>alt+enter</code> (<code>ctrl+q</code> on Windows and WSL)</td>
+<td>Queue follow-up message</td>
+</tr>
+<tr>
+<td><code>app.message.dequeue</code></td>
+<td><code>alt+up</code> (<code>alt+q</code> on Windows and WSL)</td>
+<td>Restore queued messages to editor</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="tree-navigation" tabindex="-1">
+          Tree Navigation
+        </h3>
+        <a href="#tree-navigation" class="heading-anchor" aria-label="Permalink: Tree Navigation" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#tree-navigation">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app.tree.foldOrUp</code></td>
+<td><code>ctrl+left</code>, <code>alt+left</code></td>
+<td>Fold current branch segment, or jump to the previous segment start</td>
+</tr>
+<tr>
+<td><code>app.tree.unfoldOrDown</code></td>
+<td><code>ctrl+right</code>, <code>alt+right</code></td>
+<td>Unfold current branch segment, or jump to the next segment start or branch end</td>
+</tr>
+<tr>
+<td><code>app.tree.editLabel</code></td>
+<td><code>shift+l</code></td>
+<td>Edit the label on the selected tree node</td>
+</tr>
+<tr>
+<td><code>app.tree.toggleLabelTimestamp</code></td>
+<td><code>shift+t</code></td>
+<td>Toggle label timestamps in the tree</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.default</code></td>
+<td><code>ctrl+d</code></td>
+<td>Set tree filter to default view</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.noTools</code></td>
+<td><code>ctrl+t</code></td>
+<td>Toggle tree filter that hides tool results</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.userOnly</code></td>
+<td><code>ctrl+u</code></td>
+<td>Toggle tree filter that shows only user messages</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.labeledOnly</code></td>
+<td><code>ctrl+l</code></td>
+<td>Toggle tree filter that shows only labeled entries</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.all</code></td>
+<td><code>ctrl+a</code></td>
+<td>Toggle tree filter that shows all entries</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.cycleForward</code></td>
+<td><code>ctrl+o</code></td>
+<td>Cycle tree filter forward</td>
+</tr>
+<tr>
+<td><code>app.tree.filter.cycleBackward</code></td>
+<td><code>shift+ctrl+o</code></td>
+<td>Cycle tree filter backward</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-3">
+        <h3 id="scoped-models-selector" tabindex="-1">
+          Scoped Models Selector
+        </h3>
+        <a href="#scoped-models-selector" class="heading-anchor" aria-label="Permalink: Scoped Models Selector" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#scoped-models-selector">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<p>Used inside the scoped models selector (opened via <code>/scoped-models</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Keybinding id</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app.models.enableAll</code></td>
+<td><code>ctrl+a</code></td>
+<td>Enable all models (or all matching the current search)</td>
+</tr>
+<tr>
+<td><code>app.models.clearAll</code></td>
+<td><code>ctrl+x</code></td>
+<td>Clear all models (or all matching the current search)</td>
+</tr>
+<tr>
+<td><code>app.models.toggleProvider</code></td>
+<td><code>ctrl+p</code></td>
+<td>Toggle all models for the current provider</td>
+</tr>
+<tr>
+<td><code>app.models.reorderUp</code></td>
+<td><code>alt+up</code></td>
+<td>Move the selected model up in the cycle order</td>
+</tr>
+<tr>
+<td><code>app.models.reorderDown</code></td>
+<td><code>alt+down</code></td>
+<td>Move the selected model down in the cycle order</td>
+</tr>
+</tbody></table>
+<div class="markdown-heading depth-2">
+        <h2 id="custom-configuration" tabindex="-1">
+          Custom Configuration
+        </h2>
+        <a href="#custom-configuration" class="heading-anchor" aria-label="Permalink: Custom Configuration" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#custom-configuration">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<p>Create <code>~/.pi/agent/keybindings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;tui.editor.historyPrevious&quot;: &quot;ctrl+p&quot;,
+  &quot;tui.editor.historyNext&quot;: &quot;ctrl+n&quot;,
+  &quot;tui.editor.deleteWordBackward&quot;: [&quot;ctrl+w&quot;, &quot;alt+backspace&quot;]
+}
+</code></pre>
+<p>Each action can have a single key or an array of keys. User config overrides defaults.</p>
+<p>On native Windows, <code>app.suspend</code> has no default binding because Windows terminals do not support Unix job control. If you bind it manually, pi shows a status message instead of suspending. In WSL, the normal Linux <code>ctrl+z</code>/<code>fg</code> behavior still applies.</p>
+<div class="markdown-heading depth-3">
+        <h3 id="emacs-example" tabindex="-1">
+          Emacs Example
+        </h3>
+        <a href="#emacs-example" class="heading-anchor" aria-label="Permalink: Emacs Example" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#emacs-example">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<pre><code class="language-json">{
+  &quot;tui.editor.historyPrevious&quot;: &quot;ctrl+p&quot;,
+  &quot;tui.editor.historyNext&quot;: &quot;ctrl+n&quot;,
+  &quot;tui.editor.cursorLeft&quot;: [&quot;left&quot;, &quot;ctrl+b&quot;],
+  &quot;tui.editor.cursorRight&quot;: [&quot;right&quot;, &quot;ctrl+f&quot;],
+  &quot;tui.editor.cursorWordLeft&quot;: [&quot;alt+left&quot;, &quot;alt+b&quot;],
+  &quot;tui.editor.cursorWordRight&quot;: [&quot;alt+right&quot;, &quot;alt+f&quot;],
+  &quot;tui.editor.deleteCharForward&quot;: [&quot;delete&quot;, &quot;ctrl+d&quot;],
+  &quot;tui.editor.deleteCharBackward&quot;: [&quot;backspace&quot;, &quot;ctrl+h&quot;],
+  &quot;tui.input.newLine&quot;: [&quot;shift+enter&quot;, &quot;ctrl+j&quot;]
+}
+</code></pre>
+<div class="markdown-heading depth-3">
+        <h3 id="vim-example" tabindex="-1">
+          Vim Example
+        </h3>
+        <a href="#vim-example" class="heading-anchor" aria-label="Permalink: Vim Example" data-copy data-copy-text="https://pi.dev/docs/latest/keybindings#vim-example">
+          <span class="anchor-link"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M9.30558 10.206C9.57224 10.4726 9.59447 10.8912 9.37225 11.1831L9.30558 11.2594L6.84751 13.7175C5.58692 14.9781 3.54311 14.9781 2.28252 13.7175C1.0654 12.5004 1.02344 10.5531 2.15661 9.28564L2.28252 9.15251L4.74059 6.69443C5.0315 6.40353 5.50315 6.40353 5.79405 6.69443C6.06071 6.9611 6.08294 7.37963 5.86072 7.67161L5.79405 7.74789L3.33598 10.206C2.6572 10.8847 2.6572 11.9853 3.33598 12.664C3.98082 13.3089 5.00628 13.3411 5.68918 12.7608L5.79405 12.664L8.25212 10.206C8.54303 9.91506 9.01468 9.91506 9.30558 10.206ZM9.82982 6.17019C10.1207 6.46109 10.1207 6.93274 9.82982 7.22365L7.34921 9.70427C7.0583 9.99518 6.58665 9.99518 6.29575 9.70427C6.00484 9.41337 6.00484 8.94172 6.29575 8.65081L8.77637 6.17019C9.06727 5.87928 9.53892 5.87928 9.82982 6.17019ZM13.7175 2.2825C14.9346 3.49962 14.9766 5.44688 13.8434 6.71436L13.7175 6.84749L11.2594 9.30557C10.9685 9.59647 10.4969 9.59647 10.206 9.30557C9.93931 9.03891 9.91709 8.62037 10.1393 8.32839L10.206 8.25211L12.664 5.79403C13.3428 5.11525 13.3428 4.01474 12.664 3.33596C12.0192 2.69112 10.9938 2.65888 10.3109 3.23923L10.206 3.33596L7.74791 5.79403C7.457 6.08494 6.98535 6.08494 6.69445 5.79403C6.42779 5.52737 6.40556 5.10883 6.62778 4.81686L6.69445 4.74057L9.15252 2.2825C10.4131 1.02191 12.4569 1.02191 13.7175 2.2825Z"></path></svg></span>
+          <span class="anchor-check"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="16" viewBox="0 0 16 16" width="16" aria-hidden="true"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 1 1 1.06-1.06L5.97 11.19l6.97-6.97a.75.75 0 0 1 1.06 0Z"></path></svg></span>
+          <span class="anchor-copied-label">Copied</span>
+        </a>
+        </div>
+<pre><code class="language-json">{
+  &quot;tui.editor.cursorUp&quot;: [&quot;up&quot;, &quot;alt+k&quot;],
+  &quot;tui.editor.cursorDown&quot;: [&quot;down&quot;, &quot;alt+j&quot;],
+  &quot;tui.editor.cursorLeft&quot;: [&quot;left&quot;, &quot;alt+h&quot;],
+  &quot;tui.editor.cursorRight&quot;: [&quot;right&quot;, &quot;alt+l&quot;],
+  &quot;tui.editor.cursorWordLeft&quot;: [&quot;alt+left&quot;, &quot;alt+b&quot;],
+  &quot;tui.editor.cursorWordRight&quot;: [&quot;alt+right&quot;, &quot;alt+w&quot;]
+}
+</code></pre>
+</div></div></section></div></section></main><footer class="site-footer"><div class="site-footer-inner"><div class="site-footer-left"><div class="footer-primary"><a class="link" href="https://earendil.com/">Earendil Inc.</a> &amp; Contributors</div><div class="footer-secondary"><a class="link" href="/press-kit">Press Kit</a></div><div class="footer-secondary">MIT License</div></div><div class="site-footer-right"><div class="site-footer-links"><div class="site-footer-social-links"><a href="https://github.com/earendil-works/pi/tree/main/packages/coding-agent" title="GitHub" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></a><a href="https://www.npmjs.com/package/@earendil-works/pi-coding-agent" title="npm" aria-label="npm"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M0 0v24h24v-24h-24zm19.2 19.2h-2.4v-9.6h-4.8v9.6h-7.2v-14.4h14.4v14.4z"></path></svg></a><a href="https://discord.com/invite/3cU7Bz4UPx" title="Discord" aria-label="Discord"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path></svg></a><a href="https://x.com/pidotdev" title="X" aria-label="X"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" height="18" viewBox="0 0 24 24" width="18" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"></path></svg></a></div><a href="https://earendil.com" title="Earendil Inc. website" aria-label="Earendil Inc. website" target="_blank" rel="noopener"><svg class="site-footer-earendil-emblem" viewBox="121.24 22.62 81.65 149.38" aria-hidden="true" focusable="false"><path fill="currentColor" d="M202.89 123.89c.4 29.74-40.27 26.97-40.8 48.11h-.05c-.52-21.14-41.19-18.38-40.8-48.11 27.99 0 40.09-46.29 40.82-101.27.74 54.98 12.83 101.27 40.82 101.27h0Z"></path></svg></a><button type="button" class="theme-toggle-button site-footer-theme-toggle" data-theme-toggle="true" aria-label="Theme preference"><span class="theme-toggle-visual" aria-hidden="true"><span class="theme-toggle-icon-stack"><span class="theme-toggle-icon theme-toggle-icon--sun"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" viewBox="0 0 24 24"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.166a.75.75 0 0 0-1.06-1.06l-1.591 1.59a.75.75 0 1 0 1.06 1.061l1.591-1.59ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.834 18.894a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 1 0-1.061 1.06l1.59 1.591ZM12 18a.75.75 0 0 1 .75.75V21a.75.75 0 0 1-1.5 0v-2.25A.75.75 0 0 1 12 18ZM7.758 17.303a.75.75 0 0 0-1.061-1.06l-1.591 1.59a.75.75 0 0 0 1.06 1.061l1.591-1.59ZM6 12a.75.75 0 0 1-.75.75H3a.75.75 0 0 1 0-1.5h2.25A.75.75 0 0 1 6 12ZM6.697 7.757a.75.75 0 0 0 1.06-1.06l-1.59-1.591a.75.75 0 0 0-1.061 1.06l1.59 1.591Z"></path></svg></span><span class="theme-toggle-icon theme-toggle-icon--moon"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" focusable="false" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.98 10.503 10.503 0 0 1-9.694 6.46c-5.799 0-10.5-4.7-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 0 1 .818.162Z"></path></svg></span></span><span class="theme-toggle-label-stack"><span class="theme-toggle-label theme-toggle-label--system">Auto</span><span class="theme-toggle-label theme-toggle-label--light">Light</span><span class="theme-toggle-label theme-toggle-label--dark">Dark</span></span></span></button></div><div>pi.dev domain graciously donated by <a class="link" href="https://exe.dev">exe.dev</a></div></div></div></footer></div><script src="/assets/copy-buttons.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd"></script><script src="/assets/docs-search.js?v=263215a9-e49d-4502-a4a5-7942ed1dfbfd"></script></body></html>
