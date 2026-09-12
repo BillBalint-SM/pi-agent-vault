@@ -58,6 +58,7 @@ The index stores one document row per page plus one row per searchable section/c
 ├── vitest.config.ts
 ├── src/
 │   ├── cli.ts
+│   ├── vault-check.ts
 │   ├── crawl.ts
 │   ├── extract.ts
 │   ├── index.ts
@@ -68,6 +69,7 @@ The index stores one document row per page plus one row per searchable section/c
 │   └── pi-extension.ts
 ├── tests/
 │   ├── canonicalize.test.ts
+│   ├── vault-check.test.ts
 │   ├── extract.test.ts
 │   ├── index.test.ts
 │   ├── search.test.ts
@@ -82,7 +84,8 @@ The index stores one document row per page plus one row per searchable section/c
 ├── docs/
 │   └── superpowers/
 │       └── specs/
-│           └── 2026-09-12-pi-agent-vault-design.md
+│           ├── 2026-09-12-pi-agent-vault-design.md
+│           └── 2026-09-12-vault-check-module-design.md
 ├── research/
 │   └── official-pi-docs.md
 └── data/

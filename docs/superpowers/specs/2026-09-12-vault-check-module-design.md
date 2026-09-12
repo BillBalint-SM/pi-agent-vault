@@ -228,19 +228,31 @@ than SQL inside document or section loops.
 
 Its expected complexity remains linear in documents, sections, and FTS rows.
 
-The pre-change baseline on the current 30-document, 663-section corpus, measured
-as 20 direct warm calls after one warm-up call, is:
+The historical pre-change baseline on the current 30-document, 663-section
+corpus, measured as 20 direct warm calls after one warm-up call, was:
 
 - minimum: 18.30 ms;
 - median: 20.07 ms;
 - p95: 21.62 ms; and
 - maximum: 21.99 ms.
 
-Post-change acceptance uses three 20-call warm batches on the same machine and
-corpus. The median of batch medians may not regress by more than 10%. A p95
-regression greater than 15% requires investigation and blocks acceptance until
-explained. No new filesystem or SQL operation may appear inside a
-corpus-sized loop.
+Those absolute values are retained as historical context, but are not comparable
+in the LF checkout required to validate content-hashed corpus bytes. The
+2026-09-12 release ruling therefore uses a controlled same-environment A/B
+comparison of the old `c2d2298` `checkVault` implementation and this module:
+
+- old implementation: median 32.088449999999966 ms and p95
+  36.831750000000014 ms;
+- `VaultCheck`: median 31.70614999999998 ms and p95 34.824790000000306 ms;
+- 10% median regression limit: 35.297294999999966 ms; and
+- 15% p95 regression limit: 42.35651250000001 ms.
+
+The new module passes both release limits. This proves no regression relative to
+the old implementation under the identical executable, Node version, SQLite
+file, LF corpus bytes, and measurement process; it is not an absolute
+performance guarantee. Normal residual machine-load variation remains a
+measurement uncertainty. No new filesystem or SQL operation may appear inside
+a corpus-sized loop.
 
 ## Testing strategy
 

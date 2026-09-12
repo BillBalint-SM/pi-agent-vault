@@ -45,10 +45,31 @@ The cold path starts a new Node process and opens a read-only SQLite connection 
 
 ## Integration checks
 
-- `npm run check`: passed; 12 test files and 32 tests, plus format, lint, and typecheck.
+- `npm run check`: the source worktree cannot pass ordinary Prettier because `core.autocrlf=true` materializes tracked LF text as CRLF; the baseline affects 41 files before this change. The EOL-neutral documentation check and the final LF quality-clone run are recorded below instead. No formatter configuration, global Git configuration, or unrelated tracked file was changed to mask this checkout limitation.
+- The final LF quality clone ran ordinary `npm run check` successfully: format, lint, typecheck, and Vitest all passed; Vitest reported 13 test files / 59 tests.
 - The installed `C:\Users\littl\.pi\agent\pi-docs.cmd stats --json` shim returned the 30-document/663-section index statistics without network access.
 - The official Pi extension loader smoke test loaded `C:\Users\littl\.pi\agent\extensions\pi-docs-kb\index.ts` with `errors: []`.
 - The temporary installer install/uninstall test wrote only scoped files, then removed only the pointer-listed machine files and left backups/unrelated resources untouched.
+
+## VaultCheck deep module
+
+`src/vault-check.ts` exposes exactly two TypeScript names: the `CheckReport` interface and the `checkVault(dataDir)` runtime export. The CLI continues to re-export both names for compatibility while the explicit `check` adapter and the staged `refresh` pre-publication check use the same module.
+
+The focused regression command passed its direct-interface, CLI-adapter, staged-refresh, installer, and index coverage: `tests/vault-check.test.ts`, `tests/cli.test.ts`, `tests/refresh.test.ts`, `tests/installer.test.ts`, and `tests/index.test.ts`; 5 test files / 38 tests passed.
+
+The named live corpus check against `C:/Users/littl/Documents/Codex/2026-09-12/pi/work/pi-agent-vault/data` returned unchanged JSON: `{"ok":true,"documents":30,"sections":663,"ftsRows":663,"sourceLinks":30,"errors":[]}`. The final LF quality-clone check returned `{"ok":true,"documents":30,"sections":663,"ftsRows":663,"sourceLinks":30,"errors":[]}` with its normalized clone-local `dataDir`; `git diff --exit-code c2d2298 -- data` exited zero in both validation contexts.
+
+The historical pre-change warm baseline was median 20.07 ms and p95 21.62 ms. It remains useful context but is non-comparable in the LF checkout necessary to preserve the exact corpus bytes protected by source hashes. The release regression gate instead uses a controlled same-environment comparison while retaining the original 10% median and 15% p95 policy:
+
+| Implementation             |        Median (ms) |           p95 (ms) |
+| -------------------------- | -----------------: | -----------------: |
+| Old `c2d2298` `checkVault` | 32.088449999999966 | 36.831750000000014 |
+| New `VaultCheck` module    |  31.70614999999998 | 34.824790000000306 |
+| Release limit              | 35.297294999999966 |  42.35651250000001 |
+
+The new module passes both limits. The comparison used the identical executable, Node version, SQLite file, LF corpus bytes, and measurement process; it demonstrates no refactor regression in that controlled environment, not an absolute runtime target. Residual machine-load variation remains an unavoidable uncertainty.
+
+The final LF quality clone received the tracked documentation diff before its ordinary `npm run check`, live corpus check, and data-invariance check. All passed. A fresh temporary portable install from that clone completed `npm ci --ignore-scripts` (270 packages added; 271 audited; 0 vulnerabilities), and `pi-docs.cmd check --json` returned `ok: true` with 30 documents, 663 sections, 663 FTS rows, 30 source links, and no errors. The approved handoff was regenerated only from this final documented state, with its copied validation report verified byte-identical by SHA-256.
 
 ## Scope notes
 

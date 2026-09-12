@@ -23,6 +23,10 @@ npx tsx src/cli.ts benchmark --iterations 100 --json --data C:/absolute/path/dat
 
 The CLI never uses the network for `search`, `show`, `stats`, `benchmark`, or `check`. Only `crawl` and `refresh` fetch pages.
 
+The explicit `check` command and the pre-publication stage of `refresh` use the same `VaultCheck` module. It opens the local SQLite index read-only and reconciles the manifest, source hashes, paths, derived sections, and FTS relationships before a staged vault can be published.
+
+Release validation for `VaultCheck` uses an LF checkout because the corpus hashes its exact source bytes. The regression gate compares the old and new integrity implementations in that same environment; historical timings from a different checkout remain context, not an absolute runtime target.
+
 ## Refresh and rollback
 
 `refresh` crawls into a random sibling staging directory, builds the SQLite index, validates the staged manifest/files/FTS rows, and only then swaps the published data directory. A failed crawl or check removes only staging, leaving the previous directory usable.
