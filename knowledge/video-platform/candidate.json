@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "status": "metadata-verified-candidate-not-a-tested-runtime-lock",
+  "checkedOn": "2026-10-18",
+  "target": "Linux x86_64, AMD gfx1100, local ComfyUI core, Wan2.2 TI2V 5B",
+  "os": {
+    "name": "Ubuntu Desktop 24.04.5.1 amd64",
+    "isoUrl": "https://releases.ubuntu.com/24.04/ubuntu-24.04.5.1-desktop-amd64.iso",
+    "publisherDeclaredSha256": "4da4a0c9035da8e68a59a838674f403f0a54472c78a83b4fb7f78d03588f85a7",
+    "checksumSource": "https://releases.ubuntu.com/24.04/SHA256SUMS",
+    "manifestSource": "https://releases.ubuntu.com/24.04/ubuntu-24.04.5.1-desktop-amd64.manifest",
+    "manifestKernel": "7.0.0-31-generic",
+    "manifestKernelPackageVersion": "7.0.0-31.31~24.04.1",
+    "manifestPythonPackageVersion": "3.12.3-1ubuntu0.17",
+    "isoDownloadedOrGpgSignatureVerified": false
+  },
+  "amd": {
+    "matrixSource": "https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html",
+    "pytorchSource": "https://rocm.docs.amd.com/projects/ai-ecosystem/en/latest/frameworks/pytorch/install.html",
+    "rocmFamily": "10.1.0",
+    "matrixAmdgpuDriverCandidates": ["31.60.0", "31.50.0"],
+    "selectedDriverCandidate": "31.60.0",
+    "driverPackageBuildAndSignature": "not locked; check the exact supported Ubuntu repository and Secure Boot path before installation",
+    "pythonAbi": "cp312",
+    "torch": "2.13.0+rocm10.1.0",
+    "torchvision": "0.28.0+rocm10.1.0",
+    "deviceExtra": "device-gfx1100",
+    "index": "https://stable.repo.amd.com/rocm/whl-next/",
+    "torchWheel": {"url": "https://stable.repo.amd.com/rocm/pytorch/whl-next/torch/torch-2.13.0%2Brocm10.1.0-cp312-cp312-linux_x86_64.whl", "httpHeadStatus": 200, "declaredBytes": 202600338},
+    "visionWheel": {"url": "https://stable.repo.amd.com/rocm/pytorch/whl-next/torchvision/torchvision-0.28.0%2Brocm10.1.0-cp312-cp312-linux_x86_64.whl", "httpHeadStatus": 200, "declaredBytes": 1116418},
+    "whyNotDefault214": "AMD currently pairs 2.14.0 on ROCm 10.1.0 with torchvision 0.29.0a0; choose the documented 2.13.0/0.28.0 pair as a conservative starting candidate, not a measured performance winner.",
+    "runtimeKernelsAndTransitiveDependencyHashes": "unresolved; the torch device extra must be inspected/resolved before applying a Linux environment"
+  },
+  "comfyui": {
+    "repository": "https://github.com/Comfy-Org/ComfyUI",
+    "commit": "446ef4e005fc7134d53ce6869ebd77d2134cd39c",
+    "requirementsUrl": "https://raw.githubusercontent.com/Comfy-Org/ComfyUI/446ef4e005fc7134d53ce6869ebd77d2134cd39c/requirements.txt",
+    "requirementsSha256": "a4de53472e424843bc51618bd8c8573417ba7640bb353c32fdc493108a8c44fe",
+    "frontend": "1.55.18",
+    "workflowTemplates": "0.11.89",
+    "embeddedDocs": "0.5.14",
+    "comfyKitchen": "0.2.38",
+    "comfyAimdo": "0.5.6",
+    "customNodesOrManager": "not enabled by this candidate",
+    "note": "The pinned requirements still contain unpinned dependencies including torch. Do not blindly apply them and replace the chosen ROCm torch. Resolve with explicit constraints, inspect planned artifacts, then lock actual versions/hashes."
+  },
+  "models": {
+    "repository": "Comfy-Org/Wan_2.2_ComfyUI_Repackaged",
+    "revision": "ee6f4a40737a995bf5818954cfce6d59443b0f04",
+    "metadataSource": "https://huggingface.co/api/models/Comfy-Org/Wan_2.2_ComfyUI_Repackaged?blobs=true",
+    "cardDeclaredLicense": "apache-2.0",
+    "files": [
+      {"path": "split_files/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors", "target": "models/diffusion_models/wan2.2_ti2v_5B_fp16.safetensors", "bytes": 9999658848, "publisherLfsSha256": "456f901338bd9eadbded3828b819109a9b68e8a525ca5cf8d0049a69fcfeca1e"},
+      {"path": "split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors", "target": "models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors", "bytes": 6735906897, "publisherLfsSha256": "c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68"},
+      {"path": "split_files/vae/wan2.2_vae.safetensors", "target": "models/vae/wan2.2_vae.safetensors", "bytes": 1409400960, "publisherLfsSha256": "e40321bd36b9709991dae2530eb4ac303dd168276980d3e9bc4b6e2b75fed156"}
+    ],
+    "downloaded": false,
+    "note": "Use the exact repository revision, not moving main, and verify actual downloaded bytes against the declared hashes. FP8 encoder storage does not establish native FP8 compute support or output correctness on gfx1100."
+  },
+  "unverified": ["backup and recoverability prerequisites", "actual installer/driver artifacts and signature chain", "complete dependency resolution and hashes", "Linux GPU matmul/Conv3D correctness", "core-only workflow execution", "whole-clip visual quality and timing", "stable target-size performance", "a reproducible installed environment"]
+}

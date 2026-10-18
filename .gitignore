@@ -21,5 +21,7 @@ node_modules/
 *.tgz
 *.zip
 *.bundle
+__pycache__/
+*.py[cod]
 .DS_Store
 Thumbs.db

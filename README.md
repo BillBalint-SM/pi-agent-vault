@@ -86,6 +86,23 @@ A rollback az előző tartalmat visszaírja, a setup által újonnan létrehozot
 
 A migráció előtti dokumentációs tár az eredeti Git-commiton visszakereshető: `de64d2a5a5a204bcfe374dc140a1dadcd25efaaf`. Visszanézéshez külön worktree/klón ajánlott; nem kell a mostani munkát resetelni. A régi docs-vault szolgáltatás nem települ ezzel a profillal.
 
+## Opcionális Windows-mentési és videóplatform-segédek
+
+Ezek nem részei a Pi profiltelepítésének, és nem indítanak automatikus rendszermentést vagy Linux-telepítést. A Python-segédekhez Python 3.10+ kell, kizárólag standard libraryt használnak; a Pi alapprofil továbbra is Node/Git/npm alapú.
+
+- `scripts/storage-inventory.ps1`: csak olvasó, sekély disk/partíció/drive-mapping és felső szintű mappametadata; nincs teljes profilbejárás vagy cloud-hidratálás. A kimeneti könyvtárat a gitből kizárt `.local/` alatt add meg.
+- `scripts/windows-storage-preflight.ps1`: natív GPT, boot és WinRE-lekérdezés. A `shrink querymax` csak külön `-QueryShrink` kapcsolóval indulhat, felügyelt időkorláttal; a korábbi időtúllépést nem szabad vakon újrapróbálni. Soha nem futtat tényleges shrink/resize/formázást.
+- `scripts/backup-io-pilot.py`: legfeljebb 32 MiB / 100 fájl nem érzékeny tesztminta, új célmappa, másolat és ZIP hash-visszaolvasás. Elutasítja a reparse/offline/recall útvonalakat. Ez nem rendszerkép, hideg lemezbenchmark, ACL/ADS-ellenőrzés vagy Windows restore-teszt; nem indokol teljes backupra extrapolált időígéretet. Csak a ténylegesen átnézett publikus forrásokkal használd.
+- `scripts/video-stack-sources.py`: kis, rögzített körű hivatalos dokumentum- és indexlekérés; `--details` a mentett ComfyUI-refhez rögzített forrást és wheelindexeket kér le. Nem tölt le modelleket, wheelcsomagokat vagy ISO-t, és nem telepít.
+
+A mentési pilot célzott tesztjei külön futnak, hálózat és valódi backup nélkül:
+
+```sh
+python -B -m unittest discover -s tests -p "*_test.py" -v
+```
+
+A gépi kimenet, tényleges mentési útvonalak és restore-tervek privát `.local/video-platform/` adatok. A közös, megtisztított folytatási állapot a `state/CURRENT.md`-ben marad. Nagy backup, partíciómódosítás vagy USB-írás e segédek meglétéből nem kap automatikus felhatalmazást.
+
 ## Határok
 
 - A secret/path scanner célzott, nem teljes titokdetektor vagy biztonsági audit. A diff emberi/ügynöki áttekintését nem helyettesíti.
