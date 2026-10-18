@@ -1,0 +1,24 @@
+{
+  "searchRouting": {
+    "providers": ["exa", "duckduckgo"],
+    "useCurrentModel": false,
+    "fallbackOn": ["unsupported", "transient", "quota", "network", "invalid-response"]
+  },
+  "webSearch": { "allowedProviders": ["exa", "duckduckgo"] },
+  "fetchRouting": { "providers": ["http"], "allowRemoteHostedProviders": false },
+  "fetch": { "defaultMode": "readable", "allowedModes": ["readable", "raw"] },
+  "workflow": "none",
+  "autoOpenBrowser": false,
+  "allowBrowserCookies": false,
+  "image": { "enabled": false },
+  "youtube": { "enabled": false },
+  "video": { "enabled": false },
+  "pdf": { "provider": "unpdf", "maxSizeMB": 20 },
+  "githubClone": { "enabled": false },
+  "githubPrIssue": { "enabled": false },
+  "commands": {
+    "websearch": { "enabled": false },
+    "curator": { "enabled": false },
+    "google-account": { "enabled": false }
+  }
+}

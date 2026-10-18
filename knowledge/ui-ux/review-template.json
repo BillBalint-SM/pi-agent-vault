@@ -1,0 +1,43 @@
+{
+  "artifact": "REPLACE: artifact path or URL",
+  "revision": "REPLACE: source hash or dated revision",
+  "audience": "unknown: specify or explicitly retain as a hypothesis",
+  "task": "REPLACE: real user task",
+  "medium": "REPLACE: web / social-image / video / other",
+  "hypothesis": "REPLACE: change, expected benefit, reason, risk and discriminating test",
+  "sources": [],
+  "checks": [
+    {
+      "area": "brand",
+      "status": "not-tested",
+      "evidence": []
+    },
+    {
+      "area": "primary-task",
+      "status": "not-tested",
+      "evidence": []
+    },
+    {
+      "area": "rendered-quality",
+      "status": "not-tested",
+      "evidence": []
+    },
+    {
+      "area": "accessibility",
+      "status": "not-tested",
+      "evidence": []
+    },
+    {
+      "area": "content-and-rights",
+      "status": "not-tested",
+      "evidence": []
+    }
+  ],
+  "claims": [],
+  "strongestObjection": "REPLACE: strongest reason the proposed design might fail",
+  "limitations": ["No target-user or commercial-impact study has been performed."],
+  "nextTest": "REPLACE: smallest useful next test",
+  "productionReady": false,
+  "ownerApproval": "not-requested",
+  "publication": "not-published"
+}

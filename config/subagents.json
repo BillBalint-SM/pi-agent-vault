@@ -1,0 +1,29 @@
+{
+  "asyncByDefault": false,
+  "defaultSubagentContext": "fresh",
+  "globalConcurrencyLimit": 1,
+  "parallel": { "maxTasks": 2, "concurrency": 1 },
+  "maxSubagentSpawnsPerRun": 2,
+  "maxSubagentSpawnsPerSession": 8,
+  "maxActiveAsyncRunsPerSession": 1,
+  "maxSubagentDepth": 1,
+  "timeoutMs": 600000,
+  "toolTimeoutMs": 60000,
+  "defaultSessionDir": "{{ROOT}}/.local/runtime/subagent-sessions",
+  "artifactDir": "session",
+  "missions": { "enabled": false, "globalIndex": false },
+  "scheduledRuns": { "enabled": false, "storeRoot": "{{ROOT}}/.local/runtime/subagent-schedules" },
+  "toolDescriptionMode": "compact",
+  "inlineToolDisplay": "summary",
+  "intercomBridge": { "mode": "off" },
+  "disabledFeatures": [
+    "agent-management", "watchdog", "panes", "missions", "lane-management",
+    "spawn-budget-grants", "preflight", "lane-metadata", "gates",
+    "control-overrides", "extension-bindings", "external-machines", "workflow-scripts"
+  ],
+  "authorityPolicy": {
+    "discardWorktree": "forbid", "destructiveCleanup": "forbid",
+    "spawnBudgetGrant": "forbid", "scheduleCreate": "forbid",
+    "inspectorOpen": "forbid", "projectOpen": "forbid"
+  }
+}

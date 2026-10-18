@@ -1,0 +1,15 @@
+{
+  "name": "bontaflow-content",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "plan:image": "node generate.mjs image examples/image.json",
+    "plan:video": "node generate.mjs video examples/video.json"
+  },
+  "dependencies": {
+    "@runwayml/sdk": "4.22.0",
+    "openai": "7.34.0"
+  }
+}

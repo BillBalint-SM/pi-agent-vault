@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "note": "Curated entry points, not a claim of complete review or exhaustive current-trend coverage. Read relevant original sections before applying specific requirements. Review dates are local workflow policy, not evidence expiry.",
+  "sources": [
+    {
+      "id": "w3c-wcag22",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "type": "normative-standard",
+      "checkedOn": "2026-10-16",
+      "reviewAfter": "2027-01-14",
+      "reviewScope": "Browser inspection of title, abstract, status and table of contents. The page identifies the 12 December 2024 Recommendation. Specific success criteria were not individually audited.",
+      "use": "Read applicable success criteria and conformance requirements for the affected task.",
+      "limit": "Automated checks alone do not establish full WCAG conformance. Do not substitute project target sizes for exact WCAG level-specific criteria and exceptions."
+    },
+    {
+      "id": "w3c-apg",
+      "url": "https://www.w3.org/WAI/ARIA/apg/",
+      "type": "implementation-guidance",
+      "checkedOn": "2026-10-16",
+      "reviewAfter": "2027-01-14",
+      "reviewScope": "APG homepage introduction and navigation inspected, including pattern, keyboard and accessible-name guidance entry points. Individual widget patterns not yet reviewed.",
+      "use": "Consult the actual relevant pattern for custom widget keyboard behavior and semantics; prefer native HTML where suitable.",
+      "limit": "Example code and guidance are not production certification or a replacement for assistive-technology testing."
+    },
+    {
+      "id": "nng-heuristics",
+      "url": "https://www.nngroup.com/articles/ten-usability-heuristics/",
+      "type": "expert-heuristics",
+      "checkedOn": "2026-10-16",
+      "reviewAfter": "2027-04-14",
+      "reviewScope": "Article heading, ten-item index and explanatory text through part of heuristic 8 inspected. Page says last reviewed 30 January 2024. The remaining text and linked studies were not reviewed.",
+      "use": "Structure an expert inspection of system status, user language, control, consistency, prevention, recognition, efficiency, clarity and recovery.",
+      "limit": "Broad rules of thumb, not specific experimental evidence for the current BontaFlow audience or guaranteed conversion."
+    },
+    {
+      "id": "govuk-design-system",
+      "url": "https://design-system.service.gov.uk/",
+      "type": "domain-design-system",
+      "checkedOn": "2026-10-16",
+      "reviewAfter": "2027-01-14",
+      "reviewScope": "Homepage, stated purpose, component/pattern entry points and update section inspected. Individual components and research reports not yet reviewed.",
+      "use": "Find task-oriented form and navigation patterns and their documented research context.",
+      "limit": "Government-service context is not identical to coaching marketing. Do not import its visual identity into BontaFlow."
+    },
+    {
+      "id": "webdev-vitals",
+      "url": "https://web.dev/articles/vitals",
+      "type": "platform-metrics-guidance",
+      "checkedOn": "2026-10-16",
+      "reviewAfter": "2027-01-14",
+      "reviewScope": "Overview, current metric definitions, thresholds, lifecycle and initial field-measurement sections inspected; excerpt ended in the JavaScript measurement section.",
+      "use": "Current page describes LCP <=2.5s, INP <=200ms and CLS <=0.1 at the 75th percentile, segmented mobile/desktop. Recheck before a performance audit.",
+      "limit": "Lab measurements do not establish passing real-user field metrics or causal commercial impact."
+    },
+    {
+      "id": "bontaflow-canonical",
+      "path": "<owning-project>/DESIGN.md",
+      "type": "owner-project-authority",
+      "checkedOn": "2026-10-16",
+      "reviewAfter": "2026-10-16",
+      "reviewScope": "Canonical DESIGN.md read, including continuation after tool truncation; design-system entry, assembly map, logo specification and template guide also read in this session.",
+      "use": "Re-read affected rules before production; this is a live local authority, not a frozen imported standard.",
+      "limit": "Historical acceptance and publication records do not prove acceptance or performance of new work."
+    }
+  ],
+  "backlog": [
+    "Task-specific user research methodology and experiment-design sources",
+    "Current visual/motion references with a dated comparison, risks and reuse-rights notes",
+    "Current channel-specific publication rules and safe-area specifications",
+    "Material, Apple HIG and Adobe Spectrum only when an actual task warrants them",
+    "Baymard only for applicable ecommerce questions; no automatic transfer to coaching lead generation"
+  ]
+}
